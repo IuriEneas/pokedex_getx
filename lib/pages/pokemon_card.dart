@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pokedex_getx/constants/app_constants.dart';
 import 'package:pokedex_getx/model/pokemon_model.dart';
 import 'package:pokedex_getx/routes/page_routes.dart';
 
@@ -20,7 +21,8 @@ class PokemonCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.grey.withAlpha(100),
+          color: PokemonTypeColor.pokemonType(pokemon.types[0].type.name)
+              .withAlpha(150),
         ),
         child: Column(
           children: [

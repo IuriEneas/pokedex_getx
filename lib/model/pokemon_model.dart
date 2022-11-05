@@ -6,16 +6,24 @@ part 'pokemon_model.g.dart';
 @JsonSerializable()
 class PokemonModel {
   String name;
+  int id;
+  int height;
+  int weight;
 
   @JsonKey(name: 'sprites')
   Sprites sprites;
 
   List<Types> types;
+  List<Moves> moves;
 
   PokemonModel({
+    required this.id,
     required this.name,
+    required this.height,
+    required this.weight,
     required this.sprites,
     required this.types,
+    required this.moves,
   });
 
   factory PokemonModel.fromJson(Map<String, dynamic> json) =>
@@ -95,4 +103,31 @@ class Type {
   factory Type.fromJson(Map<String, dynamic> json) => _$TypeFromJson(json);
 
   Map<String, dynamic> toJson() => _$TypeToJson(this);
+}
+
+@JsonSerializable()
+class Moves {
+  Move move;
+  Moves({
+    required this.move,
+  });
+
+  factory Moves.fromJson(Map<String, dynamic> json) => _$MovesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MovesToJson(this);
+}
+
+@JsonSerializable()
+class Move {
+  String name;
+  String url;
+
+  Move({
+    required this.name,
+    required this.url,
+  });
+
+  factory Move.fromJson(Map<String, dynamic> json) => _$MoveFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MoveToJson(this);
 }

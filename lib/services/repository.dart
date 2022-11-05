@@ -28,8 +28,6 @@ class Repository {
 
     PokemonModel pokemon = PokemonModel.fromJson(result);
 
-    print(pokemon);
-
     return pokemon;
   }
 }
