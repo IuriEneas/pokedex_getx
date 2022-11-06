@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pokedex_getx/pages/base/base_controller.dart';
+import 'package:pokedex_getx/pages/base/controller/base_controller.dart';
 import 'package:pokedex_getx/routes/page_routes.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       getPages: AppPages.pages,
-      initialRoute: PagesRoute.baseRoute,
+      initialRoute: PagesRoute.splashRoute,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,

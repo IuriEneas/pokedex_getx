@@ -10,12 +10,13 @@ class PokemonPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          color: PokemonTypeColor.pokemonType(
-            pokemonModel.types[0].type.name,
-          ).withAlpha(170),
+    return Container(
+      color: Colors.white,
+      child: Scaffold(
+        backgroundColor: PokemonTypeColor.pokemonType(
+          pokemonModel.types[0].type.name,
+        ).withAlpha(170),
+        body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -36,10 +37,14 @@ class PokemonPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Image.network(
-                      pokemonModel.sprites.other.officialArtWork.frontDefault,
-                      height: 300,
-                      width: 300,
+                    Hero(
+                      tag: pokemonModel.name,
+                      child: Image.network(
+                        pokemonModel.sprites.other.officialArtWork.frontDefault
+                            as String,
+                        height: 300,
+                        width: 300,
+                      ),
                     ),
                   ],
                 ),
@@ -51,7 +56,7 @@ class PokemonPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Pokemon id
-                    _typeWidget("#00${pokemonModel.id.toString()}"),
+                    _typeWidget(_verifyText(pokemonModel.id)),
 
                     // Pokemon Name
                     Padding(
@@ -104,6 +109,18 @@ class PokemonPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _verifyText(int id) {
+    final numberText = id.toString();
+
+    if (numberText.length == 1) {
+      return '#${numberText.padLeft(3, '0')}';
+    } else if (numberText.length == 2) {
+      return '#${numberText.padLeft(3, '0')}';
+    } else {
+      return '#$numberText';
+    }
   }
 
   _typeWidget(String text) {

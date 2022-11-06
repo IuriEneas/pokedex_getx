@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:pokedex_getx/model/pokemon_model.dart';
 import 'package:pokedex_getx/model/pokemon_result_model.dart';
+import 'package:pokedex_getx/routes/page_routes.dart';
 import 'package:pokedex_getx/services/repository.dart';
 
 class BaseController extends GetxController {
@@ -9,7 +10,7 @@ class BaseController extends GetxController {
   List<PokemonResultModel> pokemonResult = [];
   List<PokemonModel> pokemonList = [];
 
-  bool isLoading = false;
+  ResultModel? resultModel;
 
   @override
   void onInit() {
@@ -18,17 +19,17 @@ class BaseController extends GetxController {
   }
 
   Future<void> getResult() async {
-    isLoading = true;
-    update();
-
     final result = await repository.getPokemonResults();
+    resultModel = await repository.getResult();
+
     pokemonResult = result;
 
     for (PokemonResultModel it in pokemonResult) {
       pokemonList.add(await getPokemon(it.name));
     }
 
-    isLoading = false;
+    Get.offAllNamed(PagesRoute.baseRoute);
+
     update();
   }
 
@@ -36,5 +37,17 @@ class BaseController extends GetxController {
     final result = await repository.getPokemon(name);
 
     return result;
+  }
+
+  Future<void> getMorePokemon() async {
+    resultModel = await repository.getResult(endpoint: resultModel?.next);
+
+    final result = await repository.getPokemonResults(next: resultModel?.next);
+
+    for (PokemonResultModel it in result) {
+      pokemonList.add(await getPokemon(it.name));
+    }
+
+    update();
   }
 }

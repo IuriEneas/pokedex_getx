@@ -5,26 +5,29 @@ import 'package:json_annotation/json_annotation.dart';
 part 'pokemon_result_model.g.dart';
 
 @JsonSerializable()
-class Result {
+class ResultModel {
+  @JsonKey(name: 'results')
   List<PokemonResultModel> pokemonResult;
-  int count;
-  String previous;
-  String next;
 
-  Result({
+  int count;
+  String? previous;
+  String? next;
+
+  ResultModel({
     required this.pokemonResult,
     required this.count,
     required this.previous,
     required this.next,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
+  factory ResultModel.fromJson(Map<String, dynamic> json) =>
+      _$ResultModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ResultToJson(this);
+  Map<String, dynamic> toJson() => _$ResultModelToJson(this);
 
   @override
   String toString() {
-    return 'Result(pokemonResult: $pokemonResult, count: $count, previous: $previous, next: $next)';
+    return 'Result(count: $count, previous: $previous, next: $next, pokemonResult: $pokemonResult)';
   }
 }
 

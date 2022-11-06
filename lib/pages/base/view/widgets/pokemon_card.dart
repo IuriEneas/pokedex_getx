@@ -25,13 +25,20 @@ class PokemonCard extends StatelessWidget {
               .withAlpha(150),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(
-              pokemon.sprites.frontDefault,
-              height: 150,
-              width: 150,
+            Hero(
+              tag: pokemon.name,
+              child: Image.network(
+                pokemon.sprites.other.officialArtWork.frontDefault as String,
+                height: 80,
+                width: 80,
+              ),
             ),
-            Text(pokemon.name),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(pokemon.name),
+            ),
           ],
         ),
       ),

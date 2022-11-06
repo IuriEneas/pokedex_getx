@@ -35,11 +35,12 @@ class PokemonModel {
 @JsonSerializable()
 class Sprites {
   @JsonKey(name: 'front_default')
-  String frontDefault;
+  String? frontDefault;
   Other other;
 
   Sprites({
-    required this.frontDefault,
+    this.frontDefault =
+        'https://assets.pokemon.com/assets/cms2/img/pokedex/full/132.png',
     required this.other,
   });
 
@@ -66,10 +67,11 @@ class Other {
 @JsonSerializable()
 class OfficialArtWork {
   @JsonKey(name: 'front_default')
-  String frontDefault;
+  String? frontDefault;
 
   OfficialArtWork({
-    required this.frontDefault,
+    this.frontDefault =
+        'https://assets.pokemon.com/assets/cms2/img/pokedex/full/132.png',
   });
 
   factory OfficialArtWork.fromJson(Map<String, dynamic> json) =>

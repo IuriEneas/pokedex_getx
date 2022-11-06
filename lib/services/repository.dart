@@ -6,9 +6,9 @@ import 'package:pokedex_getx/services/http_manager.dart';
 class Repository {
   final _httpManager = HttpManager();
 
-  Future<List<PokemonResultModel>> getPokemonResults() async {
+  Future<List<PokemonResultModel>> getPokemonResults({String? next}) async {
     final result = await _httpManager.restRequest(
-      url: Endpoints.resultPokemon,
+      url: next ?? Endpoints.resultPokemon,
       method: HttpMethods.get,
     );
 
@@ -18,6 +18,16 @@ class Repository {
             .toList();
 
     return resultadoEsperado;
+  }
+
+  Future<ResultModel> getResult({String? endpoint}) async {
+    final result = await _httpManager.restRequest(
+      url: endpoint ?? Endpoints.resultPokemon,
+      method: HttpMethods.get,
+    );
+
+    ResultModel data = ResultModel.fromJson(result);
+    return data;
   }
 
   Future<PokemonModel> getPokemon(String name) async {

@@ -32,7 +32,8 @@ Map<String, dynamic> _$PokemonModelToJson(PokemonModel instance) =>
     };
 
 Sprites _$SpritesFromJson(Map<String, dynamic> json) => Sprites(
-      frontDefault: json['front_default'] as String,
+      frontDefault: json['front_default'] as String? ??
+          'https://assets.pokemon.com/assets/cms2/img/pokedex/full/132.png',
       other: Other.fromJson(json['other'] as Map<String, dynamic>),
     );
 
@@ -52,7 +53,8 @@ Map<String, dynamic> _$OtherToJson(Other instance) => <String, dynamic>{
 
 OfficialArtWork _$OfficialArtWorkFromJson(Map<String, dynamic> json) =>
     OfficialArtWork(
-      frontDefault: json['front_default'] as String,
+      frontDefault: json['front_default'] as String? ??
+          'https://assets.pokemon.com/assets/cms2/img/pokedex/full/132.png',
     );
 
 Map<String, dynamic> _$OfficialArtWorkToJson(OfficialArtWork instance) =>
