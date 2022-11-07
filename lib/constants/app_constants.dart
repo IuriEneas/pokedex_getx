@@ -32,7 +32,7 @@ abstract class PokemonTypeColor {
       case 'psychic':
         return const Color.fromRGBO(247, 29, 146, 1);
       case 'ice':
-        return const Color.fromRGBO(216, 240, 250, 1);
+        return const Color.fromARGB(255, 173, 232, 255);
       case 'dragon':
         return const Color.fromRGBO(98, 202, 217, 1);
       case 'dark':

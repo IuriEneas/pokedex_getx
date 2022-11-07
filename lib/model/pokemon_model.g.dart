@@ -15,9 +15,10 @@ PokemonModel _$PokemonModelFromJson(Map<String, dynamic> json) => PokemonModel(
       types: (json['types'] as List<dynamic>)
           .map((e) => Types.fromJson(e as Map<String, dynamic>))
           .toList(),
-      moves: (json['moves'] as List<dynamic>)
-          .map((e) => Moves.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      moves: (json['moves'] as List<dynamic>?)
+              ?.map((e) => Moves.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$PokemonModelToJson(PokemonModel instance) =>

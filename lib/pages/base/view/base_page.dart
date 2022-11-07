@@ -19,8 +19,7 @@ class BasePage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: GetBuilder<BaseController>(
                     builder: (_) {
-                      if (_.pokemonList.length < _.resultModel!.count &&
-                          _.resultModel?.next != null) {
+                      if (_.resultModel?.next != null) {
                         _.getMorePokemon();
                       }
 

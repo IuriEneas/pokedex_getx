@@ -93,12 +93,15 @@ class PokemonPage extends StatelessWidget {
                     // Pokemon stats
                     Expanded(
                       child: SizedBox(
-                        child: ListView.builder(
-                          itemCount: 4,
-                          itemBuilder: (context, index) {
-                            return Text(pokemonModel.moves[index].move.name);
-                          },
-                        ),
+                        child: (pokemonModel.moves?.length ?? 0) > 1
+                            ? ListView.builder(
+                                itemCount: 4,
+                                itemBuilder: (context, index) {
+                                  return Text(pokemonModel
+                                      .moves?[index].move.name as String);
+                                },
+                              )
+                            : Container(),
                       ),
                     ),
                   ],

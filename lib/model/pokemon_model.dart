@@ -14,7 +14,7 @@ class PokemonModel {
   Sprites sprites;
 
   List<Types> types;
-  List<Moves> moves;
+  List<Moves>? moves;
 
   PokemonModel({
     required this.id,
@@ -23,7 +23,7 @@ class PokemonModel {
     required this.weight,
     required this.sprites,
     required this.types,
-    required this.moves,
+    this.moves = const [],
   });
 
   factory PokemonModel.fromJson(Map<String, dynamic> json) =>

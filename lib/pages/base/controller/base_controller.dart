@@ -44,6 +44,8 @@ class BaseController extends GetxController {
 
     final result = await repository.getPokemonResults(next: resultModel?.next);
 
+    if (resultModel?.next == null) return;
+
     for (PokemonResultModel it in result) {
       pokemonList.add(await getPokemon(it.name));
     }

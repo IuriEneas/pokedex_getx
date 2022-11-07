@@ -27,6 +27,7 @@ class Repository {
     );
 
     ResultModel data = ResultModel.fromJson(result);
+    print(data.next);
     return data;
   }
 
