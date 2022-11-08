@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'pokemon_model.g.dart';
@@ -16,6 +17,8 @@ class PokemonModel {
   List<Types> types;
   List<Moves>? moves;
 
+  List<Stats> stats;
+
   PokemonModel({
     required this.id,
     required this.name,
@@ -23,8 +26,14 @@ class PokemonModel {
     required this.weight,
     required this.sprites,
     required this.types,
+    required this.stats,
     this.moves = const [],
   });
+
+  String get realName {
+    final formattedName = name.replaceFirst(name[0], name[0].toUpperCase());
+    return formattedName.replaceAll('-', ' ');
+  }
 
   factory PokemonModel.fromJson(Map<String, dynamic> json) =>
       _$PokemonModelFromJson(json);
@@ -132,4 +141,37 @@ class Move {
   factory Move.fromJson(Map<String, dynamic> json) => _$MoveFromJson(json);
 
   Map<String, dynamic> toJson() => _$MoveToJson(this);
+}
+
+@JsonSerializable()
+class Stats {
+  @JsonKey(name: 'base_stat')
+  int baseStat;
+  int effort;
+  Stat stat;
+
+  Stats({
+    required this.baseStat,
+    required this.effort,
+    required this.stat,
+  });
+
+  factory Stats.fromJson(Map<String, dynamic> json) => _$StatsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StatsToJson(this);
+}
+
+@JsonSerializable()
+class Stat {
+  String name;
+  String url;
+
+  Stat({
+    required this.name,
+    required this.url,
+  });
+
+  factory Stat.fromJson(Map<String, dynamic> json) => _$StatFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StatToJson(this);
 }

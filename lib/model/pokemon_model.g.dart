@@ -15,6 +15,9 @@ PokemonModel _$PokemonModelFromJson(Map<String, dynamic> json) => PokemonModel(
       types: (json['types'] as List<dynamic>)
           .map((e) => Types.fromJson(e as Map<String, dynamic>))
           .toList(),
+      stats: (json['stats'] as List<dynamic>)
+          .map((e) => Stats.fromJson(e as Map<String, dynamic>))
+          .toList(),
       moves: (json['moves'] as List<dynamic>?)
               ?.map((e) => Moves.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -30,6 +33,7 @@ Map<String, dynamic> _$PokemonModelToJson(PokemonModel instance) =>
       'sprites': instance.sprites,
       'types': instance.types,
       'moves': instance.moves,
+      'stats': instance.stats,
     };
 
 Sprites _$SpritesFromJson(Map<String, dynamic> json) => Sprites(
@@ -95,6 +99,28 @@ Move _$MoveFromJson(Map<String, dynamic> json) => Move(
     );
 
 Map<String, dynamic> _$MoveToJson(Move instance) => <String, dynamic>{
+      'name': instance.name,
+      'url': instance.url,
+    };
+
+Stats _$StatsFromJson(Map<String, dynamic> json) => Stats(
+      baseStat: json['base_stat'] as int,
+      effort: json['effort'] as int,
+      stat: Stat.fromJson(json['stat'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$StatsToJson(Stats instance) => <String, dynamic>{
+      'base_stat': instance.baseStat,
+      'effort': instance.effort,
+      'stat': instance.stat,
+    };
+
+Stat _$StatFromJson(Map<String, dynamic> json) => Stat(
+      name: json['name'] as String,
+      url: json['url'] as String,
+    );
+
+Map<String, dynamic> _$StatToJson(Stat instance) => <String, dynamic>{
       'name': instance.name,
       'url': instance.url,
     };

@@ -7,4 +7,6 @@ abstract class Endpoints {
     String getPokemon = '$baseUrl/pokemon/$name';
     return getPokemon;
   }
+
+  static String getRandomPokemon = '$baseUrl/pokemon?limit=100000&offset=0';
 }

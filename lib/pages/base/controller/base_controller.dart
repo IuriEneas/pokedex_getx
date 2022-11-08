@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:get/get.dart';
 import 'package:pokedex_getx/model/pokemon_model.dart';
 import 'package:pokedex_getx/model/pokemon_result_model.dart';
 import 'package:pokedex_getx/routes/page_routes.dart';
+import 'package:pokedex_getx/services/endpoints.dart';
 import 'package:pokedex_getx/services/repository.dart';
 
 class BaseController extends GetxController {
@@ -51,5 +54,17 @@ class BaseController extends GetxController {
     }
 
     update();
+  }
+
+  Future<PokemonModel> getRandomPokemon() async {
+    final random = Random();
+    int randomInt = random.nextInt(resultModel?.count as int);
+
+    final result =
+        await repository.getResult(endpoint: Endpoints.getRandomPokemon);
+
+    final pokemon = await getPokemon(result.pokemonResult[randomInt].name);
+
+    return pokemon;
   }
 }
