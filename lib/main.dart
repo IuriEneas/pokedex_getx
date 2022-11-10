@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pokedex_getx/pages/base/controller/base_controller.dart';
+import 'package:pokedex_getx/pages/pokemon/pokemon_controller.dart';
 import 'package:pokedex_getx/routes/page_routes.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   Get.put(BaseController());
+  Get.put(PokemonController());
+
   runApp(const MyApp());
 }
 

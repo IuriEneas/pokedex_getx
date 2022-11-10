@@ -11,7 +11,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: PagesRoute.pokemonRoute,
-      page: () => PokemonPage(),
+      page: () => const PokemonPage(),
     ),
     GetPage(
       name: PagesRoute.splashRoute,

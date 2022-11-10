@@ -9,4 +9,11 @@ abstract class Endpoints {
   }
 
   static String getRandomPokemon = '$baseUrl/pokemon?limit=100000&offset=0';
+
+  static String getAllPokemon = '$baseUrl/move?limit=100000&offset=0';
+
+  static String moveEndpoint(String name) {
+    String getMove = '$baseUrl/move/$name';
+    return getMove;
+  }
 }

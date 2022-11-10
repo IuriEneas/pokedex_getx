@@ -47,8 +47,16 @@ Widget statsWidget(String statName, int value) {
 _progressBar(int value) {
   return Container(
     decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: _progressBarColor(value)),
+      borderRadius: BorderRadius.circular(8),
+      color: _progressBarColor(value),
+      boxShadow: [
+        BoxShadow(
+          blurRadius: 2,
+          offset: const Offset(3, 3),
+          color: Colors.black.withAlpha(60),
+        )
+      ],
+    ),
     height: 20,
     width: value < 200 ? value * 1.26 : 260,
     child: Container(
@@ -78,6 +86,6 @@ Color _progressBarColor(int value) {
   } else if (value <= 216) {
     return Colors.green;
   } else {
-    return Colors.purple[800] as Color;
+    return Colors.blue[800] as Color;
   }
 }

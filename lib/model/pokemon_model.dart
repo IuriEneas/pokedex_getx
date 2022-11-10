@@ -2,6 +2,8 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
+import 'move_model.dart';
+
 part 'pokemon_model.g.dart';
 
 @JsonSerializable()
@@ -10,6 +12,8 @@ class PokemonModel {
   int id;
   int height;
   int weight;
+
+  List<MoveModel>? completeMoves = [];
 
   @JsonKey(name: 'sprites')
   Sprites sprites;

@@ -30,6 +30,7 @@ Map<String, dynamic> _$PokemonModelToJson(PokemonModel instance) =>
       'id': instance.id,
       'height': instance.height,
       'weight': instance.weight,
+      'completeMoves': instance.completeMoves,
       'sprites': instance.sprites,
       'types': instance.types,
       'moves': instance.moves,
