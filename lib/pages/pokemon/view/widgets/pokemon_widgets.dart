@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants/app_constants.dart';
+import '../../../../constants/app_constants.dart';
 
 Widget typeWidget(String text) {
   return Container(

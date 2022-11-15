@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pokedex_getx/constants/app_constants.dart';
 import 'package:pokedex_getx/model/pokemon_model.dart';
-import 'package:pokedex_getx/pages/pokemon/pokemon_controller.dart';
-import 'package:pokedex_getx/pages/pokemon/widgets/pokemon_ability_widget.dart';
-import 'package:pokedex_getx/pages/pokemon/widgets/pokemon_widgets.dart';
+import 'package:pokedex_getx/pages/pokemon/controller/pokemon_controller.dart';
+import 'package:pokedex_getx/pages/pokemon/view/widgets/pokemon_ability_widget.dart';
+import 'package:pokedex_getx/pages/pokemon/view/widgets/pokemon_widgets.dart';
 import 'package:pokedex_getx/services/utils_services.dart';
 
 class PokemonPage extends StatefulWidget {
@@ -26,9 +26,6 @@ class _PokemonPageState extends State<PokemonPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (pokemonModel.completeMoves!.isEmpty) {
-      controller.loadMoves(pokemonModel);
-    }
   }
 
   @override
@@ -191,12 +188,9 @@ class _PokemonPageState extends State<PokemonPage> {
                 ),
 
                 // Bottom sheet
-                Container(
+                SizedBox(
                   height: 500,
                   width: size.width,
-                  color: PokemonTypeColor.pokemonType(
-                    pokemonModel.types[0].type.name,
-                  ).withAlpha(255),
                   child: Column(
                     children: [
                       GetBuilder<PokemonController>(
@@ -204,7 +198,9 @@ class _PokemonPageState extends State<PokemonPage> {
                           return Expanded(
                             child: _.isLoading
                                 ? const Center(
-                                    child: CircularProgressIndicator(),
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                    ),
                                   )
                                 : Container(
                                     child: (pokemonModel.moves?.length ?? 0) > 1
@@ -212,7 +208,8 @@ class _PokemonPageState extends State<PokemonPage> {
                                             padding: const EdgeInsets.all(8),
                                             margin: const EdgeInsets.all(20),
                                             decoration: BoxDecoration(
-                                              color: Colors.white.withAlpha(70),
+                                              color:
+                                                  Colors.white.withAlpha(140),
                                               borderRadius:
                                                   BorderRadius.circular(20),
                                             ),
@@ -245,10 +242,10 @@ class _PokemonPageState extends State<PokemonPage> {
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
         ),
-        itemCount: pokemonModel.completeMoves!.length,
+        itemCount: pokemonModel.completeMoves.length,
         itemBuilder: (context, index) {
           return AbilityWidget(
-            move: pokemonModel.completeMoves![index],
+            move: pokemonModel.completeMoves[index],
           );
         },
       ),
@@ -305,6 +302,9 @@ class _PokemonPageState extends State<PokemonPage> {
         ),
         onPressed: () {
           _toggleIcon();
+          if (pokemonModel.completeMoves.isEmpty) {
+            controller.loadMoves(pokemonModel);
+          }
         },
       ),
     );

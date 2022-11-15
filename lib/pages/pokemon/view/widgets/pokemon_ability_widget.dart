@@ -18,13 +18,6 @@ class AbilityWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: PokemonTypeColor.pokemonType(move.type.name),
           borderRadius: BorderRadius.circular(20),
-          boxShadow: const [
-            BoxShadow(
-              offset: Offset(2, 2),
-              blurRadius: 1,
-              color: Color.fromARGB(255, 56, 56, 56),
-            ),
-          ],
         ),
         child: Center(child: Text(abilityFormatted)),
       ),

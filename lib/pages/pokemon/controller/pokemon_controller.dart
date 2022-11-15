@@ -23,13 +23,14 @@ class PokemonController extends GetxController {
     if (poke.moves == null) return;
 
     for (Moves it in poke.moves!) {
-      poke.completeMoves!.add(await respository.getMove(it.move.name));
-      print(poke.completeMoves!.length);
+      poke.completeMoves.add(await respository.getMove(it.move.name));
 
-      if (poke.completeMoves!.length > 18) {
+      if (poke.completeMoves.length % 10 == 0) {
         update();
         setLoading(false);
       }
     }
+
+    setLoading(false);
   }
 }

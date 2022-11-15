@@ -39,8 +39,9 @@ class CustomSearchDelegate extends SearchDelegate {
         Future.delayed(
           Duration.zero,
           () async {
-            final PokemonModel pokemon = await _.getPokemon(query);
-            Get.offNamed(PagesRoute.pokemonRoute, arguments: pokemon);
+            final List<PokemonModel>? list;
+            list = await _.searchPokemon(query);
+            Get.offNamed(PagesRoute.queryRoute, arguments: list);
           },
         );
 
@@ -55,6 +56,7 @@ class CustomSearchDelegate extends SearchDelegate {
       'bulbasaur',
       'charmander',
       'squirtle',
+      'pikachu',
     ];
 
     return ListView.builder(

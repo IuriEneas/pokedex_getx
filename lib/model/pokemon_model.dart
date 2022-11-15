@@ -13,7 +13,7 @@ class PokemonModel {
   int height;
   int weight;
 
-  List<MoveModel>? completeMoves = [];
+  List<MoveModel> completeMoves = [];
 
   @JsonKey(name: 'sprites')
   Sprites sprites;
@@ -43,6 +43,11 @@ class PokemonModel {
       _$PokemonModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$PokemonModelToJson(this);
+
+  @override
+  String toString() {
+    return 'PokemonModel(name: $name, id: $id, height: $height, weight: $weight, completeMoves: $completeMoves, sprites: $sprites, types: $types, moves: $moves, stats: $stats)';
+  }
 }
 
 @JsonSerializable()
