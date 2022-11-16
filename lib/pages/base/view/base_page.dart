@@ -41,6 +41,14 @@ class BasePage extends StatelessWidget {
                   );
                 },
               ),
+              GetBuilder<BaseController>(
+                builder: (_) {
+                  return IconButton(
+                    onPressed: _.deleteShared,
+                    icon: const Icon(Icons.delete),
+                  );
+                },
+              ),
             ],
           ),
         ],

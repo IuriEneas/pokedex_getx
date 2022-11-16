@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:pokedex_getx/model/pokemon_model.dart';
 import 'package:pokedex_getx/pages/base/controller/base_controller.dart';
 
-import 'base/view/widgets/pokemon_card.dart';
+import '../base/view/widgets/pokemon_card.dart';
 
 class QueryPage extends StatelessWidget {
   QueryPage({super.key});
@@ -32,7 +32,6 @@ class QueryPage extends StatelessWidget {
                             ),
                             itemCount: list.length,
                             itemBuilder: (context, index) {
-                              print(list.length);
                               return PokemonCard(
                                 pokemon: list[index],
                               );

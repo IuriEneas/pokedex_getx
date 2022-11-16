@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:pokedex_getx/pages/base/view/base_page.dart';
 import 'package:pokedex_getx/pages/pokemon/view/pokemon_page.dart';
-import 'package:pokedex_getx/pages/query_page.dart';
+import 'package:pokedex_getx/pages/query/query_page.dart';
 import 'package:pokedex_getx/pages/splash/splash_page.dart';
 
 abstract class AppPages {

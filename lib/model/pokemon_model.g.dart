@@ -22,7 +22,9 @@ PokemonModel _$PokemonModelFromJson(Map<String, dynamic> json) => PokemonModel(
               ?.map((e) => Moves.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-    );
+    )..completeMoves = (json['completeMoves'] as List<dynamic>?)
+        ?.map((e) => MoveModel.fromJson(e as Map<String, dynamic>))
+        .toList();
 
 Map<String, dynamic> _$PokemonModelToJson(PokemonModel instance) =>
     <String, dynamic>{

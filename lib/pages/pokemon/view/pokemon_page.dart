@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pokedex_getx/constants/app_constants.dart';
+import 'package:pokedex_getx/model/move_model.dart';
 import 'package:pokedex_getx/model/pokemon_model.dart';
 import 'package:pokedex_getx/pages/pokemon/controller/pokemon_controller.dart';
 import 'package:pokedex_getx/pages/pokemon/view/widgets/pokemon_ability_widget.dart';
@@ -21,12 +22,6 @@ class _PokemonPageState extends State<PokemonPage> {
   int _currIndex = 0;
 
   final controller = Get.find<PokemonController>();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -242,10 +237,11 @@ class _PokemonPageState extends State<PokemonPage> {
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
         ),
-        itemCount: pokemonModel.completeMoves.length,
+        itemCount: pokemonModel.completeMoves?.length,
         itemBuilder: (context, index) {
           return AbilityWidget(
-            move: pokemonModel.completeMoves[index],
+            move: pokemonModel.completeMoves?[index] ??
+                MoveModel(name: 'name', type: Type(name: '', url: '')),
           );
         },
       ),
@@ -302,7 +298,7 @@ class _PokemonPageState extends State<PokemonPage> {
         ),
         onPressed: () {
           _toggleIcon();
-          if (pokemonModel.completeMoves.isEmpty) {
+          if (pokemonModel.completeMoves == null) {
             controller.loadMoves(pokemonModel);
           }
         },

@@ -13,7 +13,7 @@ class PokemonModel {
   int height;
   int weight;
 
-  List<MoveModel> completeMoves = [];
+  List<MoveModel>? completeMoves = [];
 
   @JsonKey(name: 'sprites')
   Sprites sprites;

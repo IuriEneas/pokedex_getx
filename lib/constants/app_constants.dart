@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+const shared_pokemon_key = 'pokemon_list';
+const shared_result_key = 'result_key';
+
 abstract class PokemonTypeColor {
   static Color pokemonType(String type) {
     switch (type) {

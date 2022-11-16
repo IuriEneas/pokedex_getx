@@ -16,7 +16,7 @@ class BaseController extends GetxController {
   ResultModel? resultModel;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     getResult();
   }
@@ -27,8 +27,13 @@ class BaseController extends GetxController {
 
     pokemonResult = result;
 
-    for (PokemonResultModel it in pokemonResult) {
-      pokemonList.add(await getPokemon(it.name));
+    if (!await getSharedPreferences()) {
+      for (PokemonResultModel it in pokemonResult) {
+        pokemonList.add(await getPokemon(it.name));
+      }
+
+      repository.savePokemon(pokemonList);
+      repository.saveResult(resultModel!);
     }
 
     Get.offAllNamed(PagesRoute.baseRoute);
@@ -36,15 +41,28 @@ class BaseController extends GetxController {
     update();
   }
 
+  Future<void> deleteShared() async {
+    repository.deleteData();
+  }
+
   Future<PokemonModel> getPokemon(String name) async {
     final result = await repository.getPokemon(name);
-
     return result;
   }
 
-  Future<void> getMorePokemon() async {
-    resultModel = await repository.getResult(endpoint: resultModel?.next);
+  Future<bool> getSharedPreferences() async {
+    final pokemons = await repository.getSharedPokemon();
+    final result = await repository.getSharedResult();
 
+    if (pokemons.isEmpty) return false;
+
+    pokemonList = pokemons;
+    resultModel = result;
+
+    return true;
+  }
+
+  Future<void> getMorePokemon() async {
     final result = await repository.getPokemonResults(next: resultModel?.next);
 
     if (resultModel?.next == null) return;
@@ -59,6 +77,11 @@ class BaseController extends GetxController {
     pokemonList.sort(
       (a, b) => a.id.compareTo(b.id),
     );
+
+    resultModel = await repository.getResult(endpoint: resultModel?.next);
+
+    repository.savePokemon(pokemonList);
+    repository.saveResult(resultModel!);
 
     update();
   }
