@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pokedex_getx/pages/base/view/widgets/pokemon_card.dart';
 import 'package:pokedex_getx/pages/base/view/widgets/search_delegate.dart';
+import 'package:pokedex_getx/pages/home/home_page.dart';
 import 'package:pokedex_getx/routes/page_routes.dart';
+import 'package:pokedex_getx/widgets/customDrawer.dart';
 import '../controller/base_controller.dart';
 
+int indexClicked = 0;
+
 class BasePage extends StatelessWidget {
-  const BasePage({super.key});
+  BasePage({super.key});
+
+  final controller = Get.find<BaseController>();
+
+  final pages = [
+    const HomePage(),
+    const Text('Pomemmn'),
+    const Text('Stats'),
+    const Text('Inventory'),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CustomDrawer(),
       body: NestedScrollView(
         floatHeaderSlivers: true,
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -52,30 +65,8 @@ class BasePage extends StatelessWidget {
             ],
           ),
         ],
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GetBuilder<BaseController>(
-            builder: (_) {
-              if (_.resultModel?.next != null) {
-                _.getMorePokemon();
-              }
-
-              return GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                ),
-                itemCount: _.pokemonList.length,
-                itemBuilder: (context, index) {
-                  return PokemonCard(
-                    pokemon: _.pokemonList[index],
-                  );
-                },
-              );
-            },
-          ),
+        body: Obx(
+          () => pages[controller.currentIndex.value],
         ),
       ),
     );

@@ -9,6 +9,8 @@ import 'package:pokedex_getx/services/repository.dart';
 class BaseController extends GetxController {
   final Repository repository = Repository();
 
+  RxInt currentIndex = 0.obs;
+
   List<PokemonResultModel> pokemonResult = [];
   List<PokemonModel> pokemonList = [];
   List<PokemonModel> queryList = [];

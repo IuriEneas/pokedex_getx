@@ -8,7 +8,7 @@ abstract class AppPages {
   static final pages = <GetPage>[
     GetPage(
       name: PagesRoute.baseRoute,
-      page: () => const BasePage(),
+      page: () => BasePage(),
     ),
     GetPage(
       name: PagesRoute.pokemonRoute,
