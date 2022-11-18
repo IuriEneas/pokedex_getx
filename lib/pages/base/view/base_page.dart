@@ -1,9 +1,12 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:pokedex_getx/pages/base/view/widgets/search_delegate.dart';
 import 'package:pokedex_getx/pages/home/home_page.dart';
 import 'package:pokedex_getx/routes/page_routes.dart';
 import 'package:pokedex_getx/widgets/customDrawer.dart';
+
 import '../controller/base_controller.dart';
 
 int indexClicked = 0;
@@ -57,7 +60,9 @@ class BasePage extends StatelessWidget {
               GetBuilder<BaseController>(
                 builder: (_) {
                   return IconButton(
-                    onPressed: _.deleteShared,
+                    onPressed: () {
+                      Get.toNamed(PagesRoute.battleRoute);
+                    },
                     icon: const Icon(Icons.delete),
                   );
                 },
@@ -65,8 +70,15 @@ class BasePage extends StatelessWidget {
             ],
           ),
         ],
-        body: Obx(
-          () => pages[controller.currentIndex.value],
+        body: GetBuilder<BaseController>(
+          builder: (_) {
+            if (controller.resultModel?.next != null) {
+              controller.getMorePokemon();
+            }
+            return Obx(
+              () => pages[controller.currentIndex.value],
+            );
+          },
         ),
       ),
     );

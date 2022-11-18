@@ -43,10 +43,6 @@ class BaseController extends GetxController {
     update();
   }
 
-  Future<void> deleteShared() async {
-    repository.deleteData();
-  }
-
   Future<PokemonModel> getPokemon(String name) async {
     final result = await repository.getPokemon(name);
     return result;

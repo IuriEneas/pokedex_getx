@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
       child: GetBuilder<BaseController>(
         builder: (_) {
           if (_.resultModel?.next != null) {
-            _.getMorePokemon();
+            //_.getMorePokemon();
           }
 
           return GridView.builder(

@@ -50,7 +50,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           CustomListTile(
             index: 0,
             icon: Icons.home_max_outlined,
-            title: 'Home',
+            title: 'Pokedéx',
             onTap: () {
               setState(() {
                 controller.currentIndex.value = 0;

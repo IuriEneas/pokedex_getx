@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:pokedex_getx/model/move_model.dart';
 import 'package:pokedex_getx/model/pokemon_model.dart';
 import 'package:pokedex_getx/pages/base/controller/base_controller.dart';
-import 'package:pokedex_getx/pages/pokemon/repository/pokemon_repository.dart';
+import 'package:pokedex_getx/pages/pokemon_detail/repository/pokemon_repository.dart';
 import 'package:pokedex_getx/services/repository.dart';
 
 class PokemonController extends GetxController {

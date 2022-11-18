@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:pokedex_getx/constants/app_constants.dart';
 import 'package:pokedex_getx/model/move_model.dart';
 import 'package:pokedex_getx/model/pokemon_model.dart';
-import 'package:pokedex_getx/pages/pokemon/controller/pokemon_controller.dart';
-import 'package:pokedex_getx/pages/pokemon/view/widgets/pokemon_ability_widget.dart';
-import 'package:pokedex_getx/pages/pokemon/view/widgets/pokemon_widgets.dart';
+import 'package:pokedex_getx/pages/pokemon_detail/controller/pokemon_controller.dart';
+import 'package:pokedex_getx/pages/pokemon_detail/view/widgets/pokemon_ability_widget.dart';
+import 'package:pokedex_getx/pages/pokemon_detail/view/widgets/pokemon_widgets.dart';
 import 'package:pokedex_getx/services/utils_services.dart';
 
 class PokemonPage extends StatefulWidget {
