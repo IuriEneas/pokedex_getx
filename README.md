@@ -24,8 +24,11 @@ O projeto conta com uma pokedéx (Catálogos de pokémons) inteiramente funciona
 
 Alguns dos recursos que usei:
 
+- [Dart](https://dart.dev/guides)
+- [Flutter](https://docs.flutter.dev/get-started/install)
 - [PokeApi](https://pokeapi.co/)
 - [Firebase](https://firebase.google.com/)
+- [GetX](https://pub.dev/packages/get)
 
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
