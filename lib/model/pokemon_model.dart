@@ -43,17 +43,14 @@ class PokemonModel {
       _$PokemonModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$PokemonModelToJson(this);
-
-  @override
-  String toString() {
-    return 'PokemonModel(name: $name, id: $id, height: $height, weight: $weight, completeMoves: $completeMoves, sprites: $sprites, types: $types, moves: $moves, stats: $stats)';
-  }
 }
 
 @JsonSerializable()
 class Sprites {
   @JsonKey(name: 'front_default')
   String? frontDefault;
+  @JsonKey(name: 'back_default')
+  String? backDefault;
   Other other;
 
   Sprites({

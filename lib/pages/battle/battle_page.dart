@@ -1,29 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pokedex_getx/model/pokemon_capturable_model.dart';
 import 'package:pokedex_getx/pages/battle/controller/battle_controller.dart';
 
 class BattlePage extends StatelessWidget {
   BattlePage({super.key});
 
   final controller = Get.find<BattleController>();
-
-  int life = 265;
-  int expMax = 1000;
-  int exp = 150;
-  int damage = 62;
-
-  int opponentLife = 227;
-  int opponentDamage = 180;
-
-  double get percentExp {
-    double total = exp * 100 / expMax;
-    return total;
-  }
-
-  double get percentOpponentDamage {
-    double total = opponentDamage * 100 / opponentLife;
-    return total;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +35,7 @@ class BattlePage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(5),
                             child: _dataWidget(
-                              pokemon: _.opoPokemon,
+                              pokemon: _.opoPokemon!,
                               isOpponent: true,
                             ),
                           ),
@@ -84,7 +67,7 @@ class BattlePage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(5),
                             child: _dataWidget(
-                              pokemon: _.myPokemon,
+                              pokemon: _.pokemon!,
                               isOpponent: false,
                             ),
                           ),
@@ -104,13 +87,14 @@ class BattlePage extends StatelessWidget {
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
                         ),
-                        itemCount: _.myPokemon.golpes.length,
+                        itemCount: _.pokemon!.ownedMoves.length,
                         itemBuilder: (context, index) {
                           return ElevatedButton(
                             onPressed: () {
                               _.attack(index);
                             },
-                            child: Text(_.myPokemon.golpes[index].nome),
+                            child: Text(
+                                _.pokemon!.ownedMoves[index].name as String),
                           );
                         },
                       ),
@@ -133,8 +117,9 @@ class BattlePage extends StatelessWidget {
       children: [
         Image.network(
           isOpponent
-              ? 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/214.png'
-              : 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/132.png',
+              ? controller.opoPokemon?.pokemonModel.sprites.frontDefault
+                  as String
+              : controller.pokemon?.pokemonModel.sprites.frontDefault as String,
           fit: BoxFit.cover,
           height: 200,
           width: 200,
@@ -167,7 +152,7 @@ class BattlePage extends StatelessWidget {
 
   _dataWidget({
     bool isOpponent = true,
-    required PokemonBattle pokemon,
+    required PokemonCapModel pokemon,
   }) {
     return Container(
       width: 250,
@@ -196,7 +181,7 @@ class BattlePage extends StatelessWidget {
               Expanded(
                 flex: 5,
                 child: Text(
-                  pokemon.name,
+                  pokemon.pokemonModel.name,
                   style: const TextStyle(fontSize: 16),
                 ),
               ),
@@ -239,11 +224,11 @@ class BattlePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    '${pokemon.life - pokemon.damageTaken} / ',
+                    '${pokemon.hp - pokemon.damageTaken} / ',
                     style: const TextStyle(fontSize: 18),
                   ),
                   Text(
-                    '${pokemon.life}',
+                    '${pokemon.hp}',
                     style: const TextStyle(fontSize: 18),
                   ),
                   const SizedBox(width: 10),
@@ -260,7 +245,7 @@ class BattlePage extends StatelessWidget {
               : Visibility(
                   visible: !isOpponent,
                   child: _expBar(
-                    percentExp,
+                    pokemon.percentExp,
                   ),
                 ),
         ],

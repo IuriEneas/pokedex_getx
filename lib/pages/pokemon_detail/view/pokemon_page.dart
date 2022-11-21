@@ -241,7 +241,17 @@ class _PokemonPageState extends State<PokemonPage> {
         itemBuilder: (context, index) {
           return AbilityWidget(
             move: pokemonModel.completeMoves?[index] ??
-                MoveModel(name: 'name', type: Type(name: '', url: '')),
+                MoveModel(
+                  name: '',
+                  accuracy: null,
+                  pp: null,
+                  power: null,
+                  priority: null,
+                  type: Type(
+                    name: '',
+                    url: '',
+                  ),
+                ),
           );
         },
       ),

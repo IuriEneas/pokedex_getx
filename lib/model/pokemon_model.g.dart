@@ -43,10 +43,11 @@ Sprites _$SpritesFromJson(Map<String, dynamic> json) => Sprites(
       frontDefault: json['front_default'] as String? ??
           'https://assets.pokemon.com/assets/cms2/img/pokedex/full/132.png',
       other: Other.fromJson(json['other'] as Map<String, dynamic>),
-    );
+    )..backDefault = json['back_default'] as String?;
 
 Map<String, dynamic> _$SpritesToJson(Sprites instance) => <String, dynamic>{
       'front_default': instance.frontDefault,
+      'back_default': instance.backDefault,
       'other': instance.other,
     };
 

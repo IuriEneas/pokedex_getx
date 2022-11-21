@@ -16,4 +16,14 @@ abstract class Endpoints {
     String getMove = '$baseUrl/move/$name';
     return getMove;
   }
+
+  static String pokemonSpeciesEndpoint(String name) {
+    String getSpecies = '$baseUrl/pokemon-species/$name';
+    return getSpecies;
+  }
+
+  static String pokemonGrowthRateEndpoint(String name) {
+    String getGrowth = '$baseUrl/growth-rate/$name';
+    return getGrowth;
+  }
 }

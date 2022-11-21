@@ -8,7 +8,7 @@ class AbilityWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final abilityFormatted = move.name.replaceAll('-', ' ');
+    final abilityFormatted = move.name?.replaceAll('-', ' ');
 
     return InkWell(
       onTap: () {},
@@ -16,10 +16,10 @@ class AbilityWidget extends StatelessWidget {
         margin: const EdgeInsets.all(2),
         height: 60,
         decoration: BoxDecoration(
-          color: PokemonTypeColor.pokemonType(move.type.name),
+          color: PokemonTypeColor.pokemonType(move.type!.name),
           borderRadius: BorderRadius.circular(20),
         ),
-        child: Center(child: Text(abilityFormatted)),
+        child: Center(child: Text(abilityFormatted.toString())),
       ),
     );
   }

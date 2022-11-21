@@ -7,11 +7,20 @@ part 'move_model.g.dart';
 
 @JsonSerializable()
 class MoveModel {
-  final String name;
-  final Type type;
+  final String? name;
+  final Type? type;
+  final int? accuracy;
+  final int? power;
+  final int? pp;
+  final int? priority;
+
   MoveModel({
     required this.name,
     required this.type,
+    required this.accuracy,
+    required this.power,
+    required this.pp,
+    required this.priority,
   });
 
   factory MoveModel.fromJson(Map<String, dynamic> json) =>
