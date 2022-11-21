@@ -1,86 +1,60 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:get/get.dart';
+import 'package:pokedex_getx/model/pokemon_model.dart';
+import 'package:pokedex_getx/pages/base/controller/base_controller.dart';
+import 'package:pokedex_getx/pages/battle/repository/pokemon_cap_repository.dart';
 
-import '../battle_page.dart';
+import '../../../model/pokemon_capturable_model.dart';
 
 class BattleController extends GetxController {
-  PokemonBattle myPokemon = PokemonBattle(
-    name: 'Ditto',
-    level: 42,
-    exp: 124,
-    life: 244,
-    damageTaken: 0,
-    golpes: [
-      Golpe(
-        value: 101,
-        nome: 'Gosmada na cara',
-        tipo: 'Normal',
-      ),
-      Golpe(
-        value: -101,
-        nome: 'Hero',
-        tipo: 'Normal',
-      ),
-    ],
-  );
+  final controller = Get.find<BaseController>();
+  final repository = PokemonCapRepository();
+  PokemonCapModel? pokemon;
+  PokemonCapModel? opoPokemon;
 
-  PokemonBattle opoPokemon = PokemonBattle(
-    name: 'Heracross',
-    level: 61,
-    exp: 300,
-    damageTaken: 0,
-    life: 300,
-    golpes: [
-      Golpe(
-        value: 10,
-        nome: 'Bater',
-        tipo: 'Normal',
-      ),
-    ],
-  );
+  @override
+  void onInit() {
+    getPokemon(controller.pokemonList[4], controller.pokemonList[149]);
+    super.onInit();
+  }
 
-  heal() {}
+  Future<void> getPokemon(PokemonModel pokemon, PokemonModel oPokemon) async {
+    final species = await repository.getPokemonSpecies(pokemon.name);
+    final growtRate =
+        await repository.getPokemonGrowth(species.growthRate.name);
+
+    final myPokemon = PokemonCapModel(
+      exp: 20000,
+      expMax: growtRate.levels[50].experience,
+      level: 51,
+      pokemonModel: pokemon,
+      pokemonSpeciesModel: species,
+      ownedMoves: [pokemon.completeMoves![0]],
+    );
+
+    final oSpecies = await repository.getPokemonSpecies(oPokemon.name);
+    final oGrowtRate =
+        await repository.getPokemonGrowth(oSpecies.growthRate.name);
+
+    opoPokemon = PokemonCapModel(
+      exp: 30,
+      expMax: oGrowtRate.levels[18].experience,
+      level: 17,
+      pokemonModel: oPokemon,
+      pokemonSpeciesModel: oSpecies,
+      ownedMoves: [],
+    );
+
+    opoPokemon = opoPokemon;
+    this.pokemon = myPokemon;
+  }
 
   attack(int index) {
-    final damageDelt = myPokemon.golpes[index].value;
-
-    if (opoPokemon.damageTaken + damageDelt >= opoPokemon.life) {
-      opoPokemon.damageTaken = opoPokemon.life;
-    } else {
-      if (opoPokemon.damageTaken + damageDelt < 0) {
-        opoPokemon.damageTaken = 0;
-      } else {
-        opoPokemon.damageTaken = dealDamage(opoPokemon.damageTaken, damageDelt);
-      }
-    }
-
+    final damageDelt = (pokemon?.ownedMoves[0].power)! / 10;
     update();
   }
 
   double dealDamage(double damageTaken, double damageDelt) {
     return damageTaken + damageDelt;
   }
-}
-
-class PokemonBattle {
-  String name;
-  int level;
-  int exp;
-  double life;
-  double damageTaken;
-  List<Golpe> golpes;
-
-  double get percentDamage {
-    double total = damageTaken * 100 / life;
-    return total;
-  }
-
-  PokemonBattle({
-    required this.name,
-    required this.level,
-    required this.exp,
-    required this.life,
-    required this.damageTaken,
-    required this.golpes,
-  });
 }
