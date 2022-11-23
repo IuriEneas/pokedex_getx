@@ -8,8 +8,10 @@ part 'pokemon_model.g.dart';
 
 @JsonSerializable()
 class PokemonModel {
+  String? id;
   String name;
-  int id;
+  @JsonKey(name: 'id')
+  int pId;
   int height;
   int weight;
 
@@ -26,12 +28,14 @@ class PokemonModel {
   PokemonModel({
     required this.id,
     required this.name,
+    required this.pId,
     required this.height,
     required this.weight,
+    this.completeMoves,
     required this.sprites,
     required this.types,
-    required this.stats,
     this.moves = const [],
+    required this.stats,
   });
 
   String get realName {

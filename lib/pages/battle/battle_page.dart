@@ -35,7 +35,7 @@ class BattlePage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(5),
                             child: _dataWidget(
-                              pokemon: _.opoPokemon!,
+                              pokemon: _.opoPokemon,
                               isOpponent: true,
                             ),
                           ),
@@ -67,7 +67,7 @@ class BattlePage extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.all(5),
                             child: _dataWidget(
-                              pokemon: _.pokemon!,
+                              pokemon: _.pokemon,
                               isOpponent: false,
                             ),
                           ),
@@ -87,14 +87,14 @@ class BattlePage extends StatelessWidget {
                           mainAxisSpacing: 10,
                           crossAxisSpacing: 10,
                         ),
-                        itemCount: _.pokemon!.ownedMoves.length,
+                        itemCount: _.pokemon.ownedMoves!.length,
                         itemBuilder: (context, index) {
                           return ElevatedButton(
                             onPressed: () {
-                              _.attack(index);
+                              _.attack(_.pokemon, _.opoPokemon, index);
                             },
                             child: Text(
-                                _.pokemon!.ownedMoves[index].name as String),
+                                _.pokemon.ownedMoves![index].name as String),
                           );
                         },
                       ),
@@ -117,9 +117,9 @@ class BattlePage extends StatelessWidget {
       children: [
         Image.network(
           isOpponent
-              ? controller.opoPokemon?.pokemonModel.sprites.frontDefault
+              ? controller.opoPokemon.pokemonModel!.sprites.frontDefault
                   as String
-              : controller.pokemon?.pokemonModel.sprites.frontDefault as String,
+              : controller.pokemon.pokemonModel!.sprites.frontDefault as String,
           fit: BoxFit.cover,
           height: 200,
           width: 200,
@@ -181,7 +181,7 @@ class BattlePage extends StatelessWidget {
               Expanded(
                 flex: 5,
                 child: Text(
-                  pokemon.pokemonModel.name,
+                  pokemon.pokemonModel!.name,
                   style: const TextStyle(fontSize: 16),
                 ),
               ),

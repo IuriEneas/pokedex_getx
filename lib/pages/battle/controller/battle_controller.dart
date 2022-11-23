@@ -1,20 +1,37 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:math';
+
 import 'package:get/get.dart';
+import 'package:pokedex_getx/model/move_model.dart';
 import 'package:pokedex_getx/model/pokemon_model.dart';
 import 'package:pokedex_getx/pages/base/controller/base_controller.dart';
 import 'package:pokedex_getx/pages/battle/repository/pokemon_cap_repository.dart';
+import 'package:pokedex_getx/pages/pokemon_detail/repository/pokemon_repository.dart';
 
 import '../../../model/pokemon_capturable_model.dart';
 
 class BattleController extends GetxController {
   final controller = Get.find<BaseController>();
   final repository = PokemonCapRepository();
-  PokemonCapModel? pokemon;
-  PokemonCapModel? opoPokemon;
+  final pokemonRepository = PokemonRepository();
+  late PokemonCapModel pokemon;
+  late PokemonCapModel opoPokemon;
+
+  MoveModel move = MoveModel(
+    name: 'name',
+    type: Type(
+      name: 'name',
+      url: 'url',
+    ),
+    accuracy: 100,
+    power: 2,
+    pp: 3,
+    priority: 1,
+  );
 
   @override
   void onInit() {
-    getPokemon(controller.pokemonList[4], controller.pokemonList[149]);
+    getPokemon(controller.pokemonList[4], controller.pokemonList[3]);
     super.onInit();
   }
 
@@ -29,7 +46,7 @@ class BattleController extends GetxController {
       level: 51,
       pokemonModel: pokemon,
       pokemonSpeciesModel: species,
-      ownedMoves: [pokemon.completeMoves![0]],
+      ownedMoves: [move],
     );
 
     final oSpecies = await repository.getPokemonSpecies(oPokemon.name);
@@ -42,19 +59,75 @@ class BattleController extends GetxController {
       level: 17,
       pokemonModel: oPokemon,
       pokemonSpeciesModel: oSpecies,
-      ownedMoves: [],
+      ownedMoves: [move],
     );
 
     opoPokemon = opoPokemon;
     this.pokemon = myPokemon;
   }
 
-  attack(int index) {
-    final damageDelt = (pokemon?.ownedMoves[0].power)! / 10;
+  attack(
+    PokemonCapModel pokemon,
+    PokemonCapModel oPokemon,
+    int index,
+  ) async {
+    if (pokemon.isAlive) {
+      oPokemon.damageTaken += pokemon.ownedMoves![index].power as int;
+
+      if (oPokemon.damageTaken >= oPokemon.hp) {
+        oPokemon.isAlive = false;
+      }
+
+      print(pokemon.ownedMoves![index].power);
+      print(oPokemon.isAlive);
+      update();
+    }
+    await Future.delayed(const Duration(seconds: 1));
+
+    if (oPokemon.isAlive) {
+      pokemon.damageTaken += oPokemon.ownedMoves![0].power as int;
+
+      if (pokemon.damageTaken == pokemon.hp) {
+        pokemon.isAlive = false;
+      }
+    }
+
     update();
   }
 
   double dealDamage(double damageTaken, double damageDelt) {
     return damageTaken + damageDelt;
+  }
+
+  Future<PokemonCapModel> createPokemon(PokemonModel pokemonModel) async {
+    final pokemonSpeciesModel =
+        await repository.getPokemonSpecies(pokemonModel.name);
+
+    pokemonModel.completeMoves = [];
+    final random = Random();
+    final moveNum = pokemonModel.moves!.length;
+    int num = random.nextInt(4);
+
+    if (num == 0) num = 1;
+
+    for (var i = 1; i <= 4; i++) {
+      pokemonModel.completeMoves?.add(await pokemonRepository
+          .getMove(pokemonModel.moves![random.nextInt(moveNum)].move.name));
+    }
+
+    final PokemonCapModel poke = PokemonCapModel(
+      pokemonModel: pokemonModel,
+      pokemonSpeciesModel: pokemonSpeciesModel,
+      ownedMoves: [],
+      level: random.nextInt(100),
+      exp: 1656,
+      expMax: 10000000,
+    );
+
+    poke.ownedMoves = poke.pokemonModel!.completeMoves;
+    poke.pokemonModel!.moves!.clear();
+    poke.pokemonModel!.completeMoves!.clear();
+
+    return poke;
   }
 }

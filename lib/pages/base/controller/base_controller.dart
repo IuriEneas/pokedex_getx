@@ -73,7 +73,7 @@ class BaseController extends GetxController {
     }
 
     pokemonList.sort(
-      (a, b) => a.id.compareTo(b.id),
+      (a, b) => a.pId.compareTo(b.pId),
     );
 
     resultModel = await repository.getResult(endpoint: resultModel?.next);
@@ -84,9 +84,13 @@ class BaseController extends GetxController {
     update();
   }
 
+  deleteShared() {
+    repository.deleteData();
+  }
+
   Future<PokemonModel> getRandomPokemon() async {
     final random = Random();
-    int randomInt = random.nextInt(resultModel?.count as int);
+    int randomInt = random.nextInt(pokemonList.length);
     final pokemon = pokemonList[randomInt];
 
     return pokemon;
@@ -114,7 +118,7 @@ class BaseController extends GetxController {
 
   _searchById(String query) {
     for (PokemonModel it in pokemonList) {
-      if (it.id.toString().contains(query)) {
+      if (it.pId.toString().contains(query)) {
         queryList.add(it);
       }
     }

@@ -19,7 +19,7 @@ MoveModel _$MoveModelFromJson(Map<String, dynamic> json) => MoveModel(
 
 Map<String, dynamic> _$MoveModelToJson(MoveModel instance) => <String, dynamic>{
       'name': instance.name,
-      'type': instance.type,
+      'type': instance.type?.toJson(),
       'accuracy': instance.accuracy,
       'power': instance.power,
       'pp': instance.pp,

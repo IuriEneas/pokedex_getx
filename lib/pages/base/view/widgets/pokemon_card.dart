@@ -35,7 +35,7 @@ class PokemonCard extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(5),
-                child: Text(UtilsServices.verifyText(pokemon.id)),
+                child: Text(UtilsServices.verifyText(pokemon.pId)),
               ),
             ),
             Padding(

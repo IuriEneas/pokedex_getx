@@ -7,36 +7,41 @@ part of 'pokemon_model.dart';
 // **************************************************************************
 
 PokemonModel _$PokemonModelFromJson(Map<String, dynamic> json) => PokemonModel(
-      id: json['id'] as int,
+      id: json['uid'] as String?,
       name: json['name'] as String,
+      pId: json['id'] as int,
       height: json['height'] as int,
       weight: json['weight'] as int,
+      completeMoves: (json['completeMoves'] as List<dynamic>?)
+          ?.map((e) => MoveModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       sprites: Sprites.fromJson(json['sprites'] as Map<String, dynamic>),
       types: (json['types'] as List<dynamic>)
           .map((e) => Types.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      stats: (json['stats'] as List<dynamic>)
-          .map((e) => Stats.fromJson(e as Map<String, dynamic>))
           .toList(),
       moves: (json['moves'] as List<dynamic>?)
               ?.map((e) => Moves.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-    )..completeMoves = (json['completeMoves'] as List<dynamic>?)
-        ?.map((e) => MoveModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+      stats: (json['stats'] as List<dynamic>)
+          .map((e) => Stats.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$PokemonModelToJson(PokemonModel instance) =>
     <String, dynamic>{
-      'name': instance.name,
       'id': instance.id,
+      'name': instance.name,
+      'pId': instance.pId,
       'height': instance.height,
       'weight': instance.weight,
-      'completeMoves': instance.completeMoves,
-      'sprites': instance.sprites,
-      'types': instance.types,
-      'moves': instance.moves,
-      'stats': instance.stats,
+      'completeMoves': {
+        for (var e in instance.completeMoves!) e.type!.name: e.toJson()
+      },
+      'sprites': instance.sprites.toJson(),
+      'types': {for (var e in instance.types) e.type.name: e.type.toJson()},
+      'moves': {for (var e in instance.moves!) e.move.name: e.toJson()},
+      'stats': {for (var e in instance.stats) e.stat.name: e.toJson()},
     };
 
 Sprites _$SpritesFromJson(Map<String, dynamic> json) => Sprites(
@@ -48,7 +53,7 @@ Sprites _$SpritesFromJson(Map<String, dynamic> json) => Sprites(
 Map<String, dynamic> _$SpritesToJson(Sprites instance) => <String, dynamic>{
       'front_default': instance.frontDefault,
       'back_default': instance.backDefault,
-      'other': instance.other,
+      'other': instance.other.toJson(),
     };
 
 Other _$OtherFromJson(Map<String, dynamic> json) => Other(
@@ -57,7 +62,7 @@ Other _$OtherFromJson(Map<String, dynamic> json) => Other(
     );
 
 Map<String, dynamic> _$OtherToJson(Other instance) => <String, dynamic>{
-      'official-artwork': instance.officialArtWork,
+      'official-artwork': instance.officialArtWork.toJson(),
     };
 
 OfficialArtWork _$OfficialArtWorkFromJson(Map<String, dynamic> json) =>
@@ -76,7 +81,7 @@ Types _$TypesFromJson(Map<String, dynamic> json) => Types(
     );
 
 Map<String, dynamic> _$TypesToJson(Types instance) => <String, dynamic>{
-      'type': instance.type,
+      'type': instance.type.toJson(),
     };
 
 Type _$TypeFromJson(Map<String, dynamic> json) => Type(
@@ -94,7 +99,7 @@ Moves _$MovesFromJson(Map<String, dynamic> json) => Moves(
     );
 
 Map<String, dynamic> _$MovesToJson(Moves instance) => <String, dynamic>{
-      'move': instance.move,
+      'move': instance.move.toJson(),
     };
 
 Move _$MoveFromJson(Map<String, dynamic> json) => Move(
@@ -116,7 +121,7 @@ Stats _$StatsFromJson(Map<String, dynamic> json) => Stats(
 Map<String, dynamic> _$StatsToJson(Stats instance) => <String, dynamic>{
       'base_stat': instance.baseStat,
       'effort': instance.effort,
-      'stat': instance.stat,
+      'stat': instance.stat.toJson(),
     };
 
 Stat _$StatFromJson(Map<String, dynamic> json) => Stat(

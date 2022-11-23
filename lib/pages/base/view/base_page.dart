@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:pokedex_getx/pages/base/view/widgets/search_delegate.dart';
 import 'package:pokedex_getx/pages/home/home_page.dart';
+import 'package:pokedex_getx/pages/my_pokemon/my_pokemon_page.dart';
 import 'package:pokedex_getx/routes/page_routes.dart';
 import 'package:pokedex_getx/widgets/customDrawer.dart';
 
@@ -18,7 +19,7 @@ class BasePage extends StatelessWidget {
 
   final pages = [
     const HomePage(),
-    const Text('Pomemmn'),
+    const MyPokemonPage(),
     const Text('Stats'),
     const Text('Inventory'),
   ];
@@ -73,7 +74,7 @@ class BasePage extends StatelessWidget {
         body: GetBuilder<BaseController>(
           builder: (_) {
             if (controller.resultModel?.next != null) {
-              controller.getMorePokemon();
+              //controller.getMorePokemon();
             }
             return Obx(
               () => pages[controller.currentIndex.value],
