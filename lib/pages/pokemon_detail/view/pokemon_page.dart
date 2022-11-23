@@ -85,7 +85,7 @@ class _PokemonPageState extends State<PokemonPage> {
                           children: [
                             // Pokemon id
                             typeWidget(
-                                UtilsServices.verifyText(pokemonModel.pId)),
+                                UtilsServices.verifyText(pokemonModel.id)),
 
                             // Pokemon Name
                             Padding(

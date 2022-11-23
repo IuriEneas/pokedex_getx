@@ -7,9 +7,8 @@ part of 'pokemon_model.dart';
 // **************************************************************************
 
 PokemonModel _$PokemonModelFromJson(Map<String, dynamic> json) => PokemonModel(
-      id: json['uid'] as String?,
       name: json['name'] as String,
-      pId: json['id'] as int,
+      id: json['id'] as int,
       height: json['height'] as int,
       weight: json['weight'] as int,
       completeMoves: (json['completeMoves'] as List<dynamic>?)
@@ -32,16 +31,24 @@ Map<String, dynamic> _$PokemonModelToJson(PokemonModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'pId': instance.pId,
       'height': instance.height,
       'weight': instance.weight,
       'completeMoves': {
         for (var e in instance.completeMoves!) e.type!.name: e.toJson()
       },
       'sprites': instance.sprites.toJson(),
-      'types': {for (var e in instance.types) e.type.name: e.type.toJson()},
-      'moves': {for (var e in instance.moves!) e.move.name: e.toJson()},
-      'stats': {for (var e in instance.stats) e.stat.name: e.toJson()},
+      'types': {
+        for (var e in instance.types)
+          instance.types.indexOf(e).toString(): e.type.toJson()
+      },
+      'moves': {
+        for (var e in instance.moves!)
+          instance.moves!.indexOf(e).toString(): e.toJson()
+      },
+      'stats': {
+        for (var e in instance.stats)
+          instance.stats.indexOf(e).toString(): e.toJson()
+      },
     };
 
 Sprites _$SpritesFromJson(Map<String, dynamic> json) => Sprites(

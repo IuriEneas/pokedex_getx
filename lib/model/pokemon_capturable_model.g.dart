@@ -49,7 +49,10 @@ Map<String, dynamic> _$PokemonCapModelToJson(PokemonCapModel instance) =>
       'id': instance.id,
       'pokemonModel': instance.pokemonModel?.toJson(),
       'pokemonSpeciesModel': instance.pokemonSpeciesModel?.toJson(),
-      'ownedMoves': {for (var e in instance.ownedMoves!) e.name: e.toJson()},
+      'ownedMoves': {
+        for (var e in instance.ownedMoves!)
+          instance.ownedMoves!.indexOf(e).toString(): e.toJson()
+      },
       'level': instance.level,
       'exp': instance.exp,
       'expMax': instance.expMax,

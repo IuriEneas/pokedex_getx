@@ -6,11 +6,15 @@ import 'package:pokedex_getx/pages/base/controller/base_controller.dart';
 import 'package:pokedex_getx/pages/battle/controller/battle_controller.dart';
 
 class MyPokemonController extends GetxController {
-  final CollectionReference _pokemon =
+  final CollectionReference pokemonRef =
       FirebaseFirestore.instance.collection('myPokemon');
+
+  late DocumentSnapshot documentSnapshot;
 
   final controller = Get.find<BaseController>();
   final _ = Get.find<BattleController>();
+
+  void getPokemon() async {}
 
   void savePokemon() async {
     final random = Random();
@@ -18,13 +22,6 @@ class MyPokemonController extends GetxController {
     final pokemonModel = controller.pokemonList[random.nextInt(listSize - 1)];
 
     final pokemon = await _.createPokemon(pokemonModel);
-
-    pokemon.pokemonModel?.completeMoves?.length;
-
-    Map<String, dynamic> map = {
-      for (var e in pokemon.ownedMoves!) e.name!: e.toJson()
-    };
-
-    await _pokemon.doc().set(pokemon.toJson());
+    await pokemonRef.doc().set(pokemon.toJson());
   }
 }

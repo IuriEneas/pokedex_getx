@@ -73,7 +73,7 @@ class BaseController extends GetxController {
     }
 
     pokemonList.sort(
-      (a, b) => a.pId.compareTo(b.pId),
+      (a, b) => a.id.compareTo(b.id),
     );
 
     resultModel = await repository.getResult(endpoint: resultModel?.next);
@@ -118,7 +118,7 @@ class BaseController extends GetxController {
 
   _searchById(String query) {
     for (PokemonModel it in pokemonList) {
-      if (it.pId.toString().contains(query)) {
+      if (it.id.toString().contains(query)) {
         queryList.add(it);
       }
     }

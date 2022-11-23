@@ -149,7 +149,7 @@ class PokemonCapModel {
 
   PokemonCapModel.fromDocument(DocumentSnapshot? document) {
     id = document?.id;
-    pokemonModel = document?['pokemonModel'];
+    pokemonModel = PokemonModel.fromJson(document?['pokemonModel']);
     pokemonSpeciesModel = document?['pokemonSpeciesModel'];
     ownedMoves = document?['ownedMoves'];
     level = document?['level'];

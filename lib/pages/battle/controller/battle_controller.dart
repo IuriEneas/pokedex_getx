@@ -105,26 +105,36 @@ class BattleController extends GetxController {
 
     pokemonModel.completeMoves = [];
     final random = Random();
-    final moveNum = pokemonModel.moves!.length;
     int num = random.nextInt(4);
+    final moveNum = pokemonModel.moves!.length;
 
     if (num == 0) num = 1;
 
-    for (var i = 1; i <= 4; i++) {
-      pokemonModel.completeMoves?.add(await pokemonRepository
-          .getMove(pokemonModel.moves![random.nextInt(moveNum)].move.name));
+    for (var i = 1; i <= num; i++) {
+      int randomMoves = random.nextInt(moveNum);
+
+      if (randomMoves == 0) randomMoves = 1;
+
+      pokemonModel.completeMoves?.add(
+        await pokemonRepository.getMove(
+          pokemonModel.moves![randomMoves].move.name,
+        ),
+      );
     }
+
+    int randomLvl = random.nextInt(100);
+    if (randomLvl == 0) randomLvl = 1;
 
     final PokemonCapModel poke = PokemonCapModel(
       pokemonModel: pokemonModel,
       pokemonSpeciesModel: pokemonSpeciesModel,
       ownedMoves: [],
-      level: random.nextInt(100),
+      level: randomLvl,
       exp: 1656,
       expMax: 10000000,
     );
 
-    poke.ownedMoves = poke.pokemonModel!.completeMoves;
+    poke.ownedMoves!.addAll(poke.pokemonModel!.completeMoves!);
     poke.pokemonModel!.moves!.clear();
     poke.pokemonModel!.completeMoves!.clear();
 
