@@ -45,7 +45,9 @@ class MyPokemonPage extends StatelessWidget {
               },
             ),
             ElevatedButton(
-              onPressed: _.savePokemon,
+              onPressed: () {
+                _.savePokemon();
+              },
               child: const Text('save'),
             ),
           ],

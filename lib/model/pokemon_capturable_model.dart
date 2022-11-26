@@ -147,6 +147,39 @@ class PokemonCapModel {
     return total;
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'pokemonModel': pokemonModel?.toMap(),
+      'pokemonSpeciesModel': pokemonSpeciesModel?.toMap(),
+      'ownedMoves': {
+        for (var e in ownedMoves!) ownedMoves!.indexOf(e).toString(): e.toMap()
+      },
+      'level': level,
+      'exp': exp,
+      'expMax': expMax,
+      'damageTaken': damageTaken,
+      'hp': hp,
+      'attack': attack,
+      'defense': defense,
+      'spAttack': spAttack,
+      'speed': speed,
+      'hpEv': hpEv,
+      'attackEv': attackEv,
+      'defenseEv': defenseEv,
+      'spAttackEv': spAttackEv,
+      'spDefenseEv': spDefenseEv,
+      'speedEv': speedEv,
+      'hpIv': hpIv,
+      'attackIv': attackIv,
+      'defenseIv': defenseIv,
+      'spAttackIv': spAttackIv,
+      'spDefenseIv': spDefenseIv,
+      'speedIv': speedIv,
+      'isAlive': isAlive,
+    };
+  }
+
   PokemonCapModel.fromDocument(DocumentSnapshot? document) {
     id = document?.id;
     pokemonModel = PokemonModel.fromJson(document?['pokemonModel']);
@@ -199,6 +232,14 @@ class PokemonSpeciesModel {
     required this.growthRate,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'captureRate': captureRate,
+      'evolutionChain': evolutionChain.toMap(),
+      'growthRate': growthRate.toMap(),
+    };
+  }
+
   factory PokemonSpeciesModel.fromJson(Map<String, dynamic> json) =>
       _$PokemonSpeciesModelFromJson(json);
 
@@ -217,6 +258,12 @@ class EvolutionChain {
     required this.url,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'url': url,
+    };
+  }
+
   factory EvolutionChain.fromJson(Map<String, dynamic> json) =>
       _$EvolutionChainFromJson(json);
 
@@ -232,6 +279,13 @@ class GrowthRate {
     required this.name,
     required this.url,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'url': url,
+    };
+  }
 
   factory GrowthRate.fromJson(Map<String, dynamic> json) =>
       _$GrowthRateFromJson(json);
@@ -251,6 +305,14 @@ class GrowthRateResult {
     required this.levels,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'formula': formula,
+      'levels': {for (var e in levels) levels.indexOf(e).toString(): e.toMap()}
+    };
+  }
+
   factory GrowthRateResult.fromJson(Map<String, dynamic> json) =>
       _$GrowthRateResultFromJson(json);
 
@@ -266,6 +328,13 @@ class Levels {
     required this.experience,
     required this.level,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'experience': experience,
+      'level': level,
+    };
+  }
 
   factory Levels.fromJson(Map<String, dynamic> json) => _$LevelsFromJson(json);
   Map<String, dynamic> toJson() => _$LevelsToJson(this);

@@ -41,6 +41,22 @@ class PokemonModel {
     return formattedName.replaceAll('-', ' ');
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'id': id,
+      'height': height,
+      'completeMoves': {
+        for (var e in completeMoves!)
+          completeMoves!.indexOf(e).toString(): e.toMap()
+      },
+      'sprites': sprites.toMap(),
+      'types': {for (var e in types) types.indexOf(e).toString(): e.toMap()},
+      'moves': {for (var e in moves!) moves!.indexOf(e).toString(): e.toMap()},
+      'stats': {for (var e in stats) stats.indexOf(e).toString(): e.toMap()},
+    };
+  }
+
   factory PokemonModel.fromJson(Map<String, dynamic> json) =>
       _$PokemonModelFromJson(json);
 
@@ -61,6 +77,14 @@ class Sprites {
     required this.other,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'frontDefault': frontDefault,
+      'backDefault': backDefault,
+      'other': other.toMap(),
+    };
+  }
+
   factory Sprites.fromJson(Map<String, dynamic> json) =>
       _$SpritesFromJson(json);
 
@@ -75,6 +99,12 @@ class Other {
   Other({
     required this.officialArtWork,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'officialArtWork': officialArtWork.toMap(),
+    };
+  }
 
   factory Other.fromJson(Map<String, dynamic> json) => _$OtherFromJson(json);
 
@@ -91,6 +121,12 @@ class OfficialArtWork {
         'https://assets.pokemon.com/assets/cms2/img/pokedex/full/132.png',
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'frontDefault': frontDefault,
+    };
+  }
+
   factory OfficialArtWork.fromJson(Map<String, dynamic> json) =>
       _$OfficialArtWorkFromJson(json);
 
@@ -103,6 +139,12 @@ class Types {
   Types({
     required this.type,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'type': type.toMap(),
+    };
+  }
 
   factory Types.fromJson(Map<String, dynamic> json) => _$TypesFromJson(json);
 
@@ -119,6 +161,13 @@ class Type {
     required this.url,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'url': url,
+    };
+  }
+
   factory Type.fromJson(Map<String, dynamic> json) => _$TypeFromJson(json);
 
   Map<String, dynamic> toJson() => _$TypeToJson(this);
@@ -130,6 +179,12 @@ class Moves {
   Moves({
     required this.move,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'move': move.toMap(),
+    };
+  }
 
   factory Moves.fromJson(Map<String, dynamic> json) => _$MovesFromJson(json);
 
@@ -145,6 +200,13 @@ class Move {
     required this.name,
     required this.url,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'url': url,
+    };
+  }
 
   factory Move.fromJson(Map<String, dynamic> json) => _$MoveFromJson(json);
 
@@ -164,6 +226,14 @@ class Stats {
     required this.stat,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'baseStat': baseStat,
+      'effort': effort,
+      'stat': stat.toMap(),
+    };
+  }
+
   factory Stats.fromJson(Map<String, dynamic> json) => _$StatsFromJson(json);
 
   Map<String, dynamic> toJson() => _$StatsToJson(this);
@@ -178,6 +248,13 @@ class Stat {
     required this.name,
     required this.url,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'url': url,
+    };
+  }
 
   factory Stat.fromJson(Map<String, dynamic> json) => _$StatFromJson(json);
 

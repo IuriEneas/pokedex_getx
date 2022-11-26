@@ -23,6 +23,17 @@ class MoveModel {
     required this.priority,
   });
 
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'type': type!.toMap(),
+      'accuracy': accuracy,
+      'power': power,
+      'pp': pp,
+      'priority': priority,
+    };
+  }
+
   factory MoveModel.fromJson(Map<String, dynamic> json) =>
       _$MoveModelFromJson(json);
 
@@ -38,6 +49,13 @@ class ResultMoveModel {
     required this.name,
     required this.url,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'url': url,
+    };
+  }
 
   factory ResultMoveModel.fromJson(Map<String, dynamic> json) =>
       _$ResultMoveModelFromJson(json);

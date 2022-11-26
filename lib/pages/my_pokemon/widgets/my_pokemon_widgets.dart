@@ -22,13 +22,13 @@ class MyPokemonTile extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: PokemonTypeColor.pokemonType(pokemonType['name'])
+            color: PokemonTypeColor.pokemonType(pokemonType['type']['name'])
                 .withAlpha(120),
           ),
           child: Column(
             children: [
               Image.network(
-                pokemon['pokemonModel']['sprites']['front_default'],
+                pokemon['pokemonModel']['sprites']['frontDefault'],
                 fit: BoxFit.cover,
               ),
               Text(pokemon['pokemonModel']['name']),

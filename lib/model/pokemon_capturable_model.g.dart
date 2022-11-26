@@ -47,12 +47,9 @@ PokemonCapModel _$PokemonCapModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$PokemonCapModelToJson(PokemonCapModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'pokemonModel': instance.pokemonModel?.toJson(),
-      'pokemonSpeciesModel': instance.pokemonSpeciesModel?.toJson(),
-      'ownedMoves': {
-        for (var e in instance.ownedMoves!)
-          instance.ownedMoves!.indexOf(e).toString(): e.toJson()
-      },
+      'pokemonModel': instance.pokemonModel,
+      'pokemonSpeciesModel': instance.pokemonSpeciesModel,
+      'ownedMoves': instance.ownedMoves,
       'level': instance.level,
       'exp': instance.exp,
       'expMax': instance.expMax,
@@ -91,8 +88,8 @@ Map<String, dynamic> _$PokemonSpeciesModelToJson(
         PokemonSpeciesModel instance) =>
     <String, dynamic>{
       'capture_rate': instance.captureRate,
-      'evolution_chain': instance.evolutionChain.toJson(),
-      'growth_rate': instance.growthRate.toJson(),
+      'evolution_chain': instance.evolutionChain,
+      'growth_rate': instance.growthRate,
     };
 
 EvolutionChain _$EvolutionChainFromJson(Map<String, dynamic> json) =>
@@ -129,7 +126,7 @@ Map<String, dynamic> _$GrowthRateResultToJson(GrowthRateResult instance) =>
     <String, dynamic>{
       'name': instance.name,
       'formula': instance.formula,
-      'levels': {for (var e in instance.levels) e.level: e.toJson()},
+      'levels': instance.levels,
     };
 
 Levels _$LevelsFromJson(Map<String, dynamic> json) => Levels(
