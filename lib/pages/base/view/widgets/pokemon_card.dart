@@ -22,7 +22,7 @@ class PokemonCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: PokemonTypeColor.pokemonType(pokemon.types[0].type.name)
+          color: PokemonTypeColor.pokemonType(pokemon.types![0].type!.name!)
               .withAlpha(150),
         ),
         child: Column(
@@ -35,15 +35,16 @@ class PokemonCard extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(5),
-                child: Text(UtilsServices.verifyText(pokemon.id)),
+                child: Text(UtilsServices.verifyText(pokemon.id!)),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Hero(
-                tag: pokemon.name,
+                tag: pokemon.name!,
                 child: Image.network(
-                  pokemon.sprites.other.officialArtWork.frontDefault as String,
+                  pokemon.sprites!.other!.officialArtWork!.frontDefault
+                      as String,
                   height: 80,
                   width: 80,
                 ),

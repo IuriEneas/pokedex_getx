@@ -28,8 +28,8 @@ Map<String, dynamic> _$MoveModelToJson(MoveModel instance) => <String, dynamic>{
 
 ResultMoveModel _$ResultMoveModelFromJson(Map<String, dynamic> json) =>
     ResultMoveModel(
-      name: json['name'] as String,
-      url: json['url'] as String,
+      name: json['name'] as String?,
+      url: json['url'] as String?,
     );
 
 Map<String, dynamic> _$ResultMoveModelToJson(ResultMoveModel instance) =>

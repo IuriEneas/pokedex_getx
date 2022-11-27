@@ -19,7 +19,7 @@ class BasePage extends StatelessWidget {
 
   final pages = [
     const HomePage(),
-    const MyPokemonPage(),
+    MyPokemonPage(),
     const Text('Stats'),
     const Text('Inventory'),
   ];
@@ -74,7 +74,7 @@ class BasePage extends StatelessWidget {
         body: GetBuilder<BaseController>(
           builder: (_) {
             if (controller.resultModel?.next != null) {
-              //controller.getMorePokemon();
+              controller.getMorePokemon();
             }
             return Obx(
               () => pages[controller.currentIndex.value],

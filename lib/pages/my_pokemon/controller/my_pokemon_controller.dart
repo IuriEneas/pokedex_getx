@@ -10,6 +10,7 @@ class MyPokemonController extends GetxController {
       FirebaseFirestore.instance.collection('myPokemon');
 
   late DocumentSnapshot documentSnapshot;
+  late QuerySnapshot querySnapshot;
 
   final controller = Get.find<BaseController>();
   final _ = Get.find<BattleController>();

@@ -28,7 +28,7 @@ class MyPokemonTile extends StatelessWidget {
           child: Column(
             children: [
               Image.network(
-                pokemon['pokemonModel']['sprites']['frontDefault'],
+                pokemon['pokemonModel']['sprites']['front_default'],
                 fit: BoxFit.cover,
               ),
               Text(pokemon['pokemonModel']['name']),

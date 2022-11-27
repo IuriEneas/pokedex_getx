@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'move_model.dart';
@@ -8,21 +9,21 @@ part 'pokemon_model.g.dart';
 
 @JsonSerializable()
 class PokemonModel {
-  String name;
-  @JsonKey(name: 'id')
-  int id;
-  int height;
-  int weight;
+  String? name;
+  int? id;
+  int? height;
+  int? weight;
 
   List<MoveModel>? completeMoves = [];
 
-  @JsonKey(name: 'sprites')
-  Sprites sprites;
+  Sprites? sprites;
 
-  List<Types> types;
+  List<Types>? types;
   List<Moves>? moves;
 
-  List<Stats> stats;
+  List<Stats>? stats;
+
+  Species? species;
 
   PokemonModel({
     required this.id,
@@ -34,10 +35,11 @@ class PokemonModel {
     required this.types,
     this.moves = const [],
     required this.stats,
+    required this.species,
   });
 
   String get realName {
-    final formattedName = name.replaceFirst(name[0], name[0].toUpperCase());
+    final formattedName = name!.replaceFirst(name![0], name![0].toUpperCase());
     return formattedName.replaceAll('-', ' ');
   }
 
@@ -46,14 +48,16 @@ class PokemonModel {
       'name': name,
       'id': id,
       'height': height,
+      'weight': weight,
       'completeMoves': {
         for (var e in completeMoves!)
           completeMoves!.indexOf(e).toString(): e.toMap()
       },
-      'sprites': sprites.toMap(),
-      'types': {for (var e in types) types.indexOf(e).toString(): e.toMap()},
+      'sprites': sprites!.toMap(),
+      'species': species!.toMap(),
+      'types': {for (var e in types!) types!.indexOf(e).toString(): e.toMap()},
       'moves': {for (var e in moves!) moves!.indexOf(e).toString(): e.toMap()},
-      'stats': {for (var e in stats) stats.indexOf(e).toString(): e.toMap()},
+      'stats': {for (var e in stats!) stats!.indexOf(e).toString(): e.toMap()},
     };
   }
 
@@ -69,7 +73,7 @@ class Sprites {
   String? frontDefault;
   @JsonKey(name: 'back_default')
   String? backDefault;
-  Other other;
+  Other? other;
 
   Sprites({
     this.frontDefault =
@@ -79,10 +83,16 @@ class Sprites {
 
   Map<String, dynamic> toMap() {
     return {
-      'frontDefault': frontDefault,
-      'backDefault': backDefault,
-      'other': other.toMap(),
+      'front_default': frontDefault,
+      'back_default': backDefault,
+      'other': other!.toMap(),
     };
+  }
+
+  Sprites.fromDocument(DocumentSnapshot document) {
+    frontDefault = document['frontDefault'];
+    backDefault = document['backDefault'];
+    other = Other.fromDocument(document['other']);
   }
 
   factory Sprites.fromJson(Map<String, dynamic> json) =>
@@ -94,7 +104,7 @@ class Sprites {
 @JsonSerializable()
 class Other {
   @JsonKey(name: 'official-artwork')
-  OfficialArtWork officialArtWork;
+  OfficialArtWork? officialArtWork;
 
   Other({
     required this.officialArtWork,
@@ -102,8 +112,12 @@ class Other {
 
   Map<String, dynamic> toMap() {
     return {
-      'officialArtWork': officialArtWork.toMap(),
+      'official-artwork': officialArtWork!.toMap(),
     };
+  }
+
+  Other.fromDocument(DocumentSnapshot document) {
+    officialArtWork = OfficialArtWork.fromDocument(document['officialArtWork']);
   }
 
   factory Other.fromJson(Map<String, dynamic> json) => _$OtherFromJson(json);
@@ -123,8 +137,12 @@ class OfficialArtWork {
 
   Map<String, dynamic> toMap() {
     return {
-      'frontDefault': frontDefault,
+      'front_default': frontDefault,
     };
+  }
+
+  OfficialArtWork.fromDocument(DocumentSnapshot document) {
+    frontDefault = document['frontDefault'];
   }
 
   factory OfficialArtWork.fromJson(Map<String, dynamic> json) =>
@@ -135,15 +153,19 @@ class OfficialArtWork {
 
 @JsonSerializable()
 class Types {
-  Type type;
+  Type? type;
   Types({
     required this.type,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'type': type.toMap(),
+      'type': type!.toMap(),
     };
+  }
+
+  Types.fromDocument(DocumentSnapshot document) {
+    type = Type.fromDocument(document['type']);
   }
 
   factory Types.fromJson(Map<String, dynamic> json) => _$TypesFromJson(json);
@@ -153,8 +175,8 @@ class Types {
 
 @JsonSerializable()
 class Type {
-  String name;
-  String url;
+  String? name;
+  String? url;
 
   Type({
     required this.name,
@@ -168,6 +190,11 @@ class Type {
     };
   }
 
+  Type.fromDocument(DocumentSnapshot document) {
+    name = document['name'];
+    url = document['url'];
+  }
+
   factory Type.fromJson(Map<String, dynamic> json) => _$TypeFromJson(json);
 
   Map<String, dynamic> toJson() => _$TypeToJson(this);
@@ -175,15 +202,19 @@ class Type {
 
 @JsonSerializable()
 class Moves {
-  Move move;
+  Move? move;
   Moves({
     required this.move,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'move': move.toMap(),
+      'move': move!.toMap(),
     };
+  }
+
+  Moves.fromDocument(DocumentSnapshot document) {
+    move = Move.fromDocument(document['move']);
   }
 
   factory Moves.fromJson(Map<String, dynamic> json) => _$MovesFromJson(json);
@@ -193,8 +224,8 @@ class Moves {
 
 @JsonSerializable()
 class Move {
-  String name;
-  String url;
+  String? name;
+  String? url;
 
   Move({
     required this.name,
@@ -208,6 +239,11 @@ class Move {
     };
   }
 
+  Move.fromDocument(DocumentSnapshot document) {
+    name = document['name'];
+    url = document['url'];
+  }
+
   factory Move.fromJson(Map<String, dynamic> json) => _$MoveFromJson(json);
 
   Map<String, dynamic> toJson() => _$MoveToJson(this);
@@ -216,9 +252,9 @@ class Move {
 @JsonSerializable()
 class Stats {
   @JsonKey(name: 'base_stat')
-  int baseStat;
-  int effort;
-  Stat stat;
+  int? baseStat;
+  int? effort;
+  Stat? stat;
 
   Stats({
     required this.baseStat,
@@ -228,9 +264,9 @@ class Stats {
 
   Map<String, dynamic> toMap() {
     return {
-      'baseStat': baseStat,
+      'base_stat': baseStat,
       'effort': effort,
-      'stat': stat.toMap(),
+      'stat': stat!.toMap(),
     };
   }
 
@@ -241,8 +277,8 @@ class Stats {
 
 @JsonSerializable()
 class Stat {
-  String name;
-  String url;
+  String? name;
+  String? url;
 
   Stat({
     required this.name,
@@ -256,7 +292,40 @@ class Stat {
     };
   }
 
+  Stat.fromDocument(DocumentSnapshot document) {
+    name = document['name'];
+    url = document['url'];
+  }
+
   factory Stat.fromJson(Map<String, dynamic> json) => _$StatFromJson(json);
 
   Map<String, dynamic> toJson() => _$StatToJson(this);
+}
+
+@JsonSerializable()
+class Species {
+  String? name;
+  String? url;
+
+  Species({
+    required this.name,
+    required this.url,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'name': name,
+      'url': url,
+    };
+  }
+
+  Species.fromDocument(DocumentSnapshot document) {
+    name = document['name'];
+    url = document['url'];
+  }
+
+  factory Species.fromJson(Map<String, dynamic> json) =>
+      _$SpeciesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SpeciesToJson(this);
 }

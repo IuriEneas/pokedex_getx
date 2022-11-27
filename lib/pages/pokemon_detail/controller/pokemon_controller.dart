@@ -29,7 +29,7 @@ class PokemonController extends GetxController {
     //if (poke.moves == null) return;
 
     for (Moves it in poke.moves!) {
-      poke.completeMoves?.add(await respository.getMove(it.move.name));
+      poke.completeMoves?.add(await respository.getMove(it.move!.name!));
 
       if ((poke.completeMoves?.length)! % 10 == 0) {
         update();

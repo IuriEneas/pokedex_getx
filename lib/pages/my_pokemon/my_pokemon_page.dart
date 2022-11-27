@@ -1,16 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pokedex_getx/pages/battle/controller/battle_controller.dart';
+import 'package:pokedex_getx/pages/my_pokemon/controller/my_pokemon_controller.dart';
 import 'package:pokedex_getx/pages/my_pokemon/widgets/my_pokemon_widgets.dart';
 
-import 'controller/my_pokemon_controller.dart';
-
 class MyPokemonPage extends StatelessWidget {
-  const MyPokemonPage({super.key});
+  MyPokemonPage({super.key});
+
+  final controller = Get.find<MyPokemonController>();
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<MyPokemonController>(
+    return GetBuilder<BattleController>(
       builder: (_) {
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -20,6 +22,7 @@ class MyPokemonPage extends StatelessWidget {
                   _.pokemonRef.orderBy('level', descending: true).snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasData) {
+                  _.querySnapshot = snapshot.data!;
                   return Expanded(
                     child: GridView.builder(
                       gridDelegate:
@@ -46,7 +49,7 @@ class MyPokemonPage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                _.savePokemon();
+                controller.savePokemon();
               },
               child: const Text('save'),
             ),

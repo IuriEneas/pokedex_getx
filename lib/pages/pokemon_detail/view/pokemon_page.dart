@@ -26,7 +26,7 @@ class _PokemonPageState extends State<PokemonPage> {
   @override
   Widget build(BuildContext context) {
     final color = PokemonTypeColor.pokemonType(
-      pokemonModel.types[0].type.name,
+      pokemonModel.types![0].type!.name!,
     ).withAlpha(170);
 
     return Container(
@@ -66,9 +66,9 @@ class _PokemonPageState extends State<PokemonPage> {
 
                             // PokemonImage
                             Hero(
-                              tag: pokemonModel.name,
+                              tag: pokemonModel.name!,
                               child: Image.network(
-                                pokemonModel.sprites.other.officialArtWork
+                                pokemonModel.sprites!.other!.officialArtWork!
                                     .frontDefault as String,
                                 height: 300,
                                 width: 300,
@@ -85,7 +85,7 @@ class _PokemonPageState extends State<PokemonPage> {
                           children: [
                             // Pokemon id
                             typeWidget(
-                                UtilsServices.verifyText(pokemonModel.id)),
+                                UtilsServices.verifyText(pokemonModel.id!)),
 
                             // Pokemon Name
                             Padding(
@@ -100,25 +100,27 @@ class _PokemonPageState extends State<PokemonPage> {
                             ),
 
                             // Pokemon types
-                            if (pokemonModel.types.length > 1) ...[
+                            if (pokemonModel.types!.length > 1) ...[
                               Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  typeWidget(pokemonModel.types[0].type.name),
-                                  typeWidget(pokemonModel.types[1].type.name),
+                                  typeWidget(
+                                      pokemonModel.types![0].type!.name!),
+                                  typeWidget(
+                                      pokemonModel.types![1].type!.name!),
                                 ],
                               ),
                             ] else ...[
-                              typeWidget(pokemonModel.types[0].type.name),
+                              typeWidget(pokemonModel.types![0].type!.name!),
                             ],
 
                             // Pokemon height
                             Padding(
                               padding: const EdgeInsets.all(6.0),
                               child: Text(
-                                '${(pokemonModel.height / 10).toString()} m',
+                                '${(pokemonModel.height! / 10).toString()} m',
                                 style: const TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.w500,
@@ -128,7 +130,7 @@ class _PokemonPageState extends State<PokemonPage> {
 
                             // Pokemon Weigh
                             Text(
-                              '${(pokemonModel.weight / 10).toString()} kg',
+                              '${(pokemonModel.weight! / 10).toString()} kg',
                               style: const TextStyle(
                                 fontSize: 17,
                                 fontWeight: FontWeight.w500,
@@ -149,22 +151,22 @@ class _PokemonPageState extends State<PokemonPage> {
                                 children: [
                                   const SizedBox(height: 10),
                                   statsWidget(
-                                      'Hp', pokemonModel.stats[0].baseStat),
+                                      'Hp', pokemonModel.stats![0].baseStat!),
                                   const SizedBox(height: 6),
-                                  statsWidget(
-                                      'Attack', pokemonModel.stats[1].baseStat),
+                                  statsWidget('Attack',
+                                      pokemonModel.stats![1].baseStat!),
                                   const SizedBox(height: 6),
                                   statsWidget('Defense',
-                                      pokemonModel.stats[2].baseStat),
+                                      pokemonModel.stats![2].baseStat!),
                                   const SizedBox(height: 6),
                                   statsWidget('Sp. Atk',
-                                      pokemonModel.stats[3].baseStat),
+                                      pokemonModel.stats![3].baseStat!),
                                   const SizedBox(height: 6),
                                   statsWidget('Sp. Def',
-                                      pokemonModel.stats[4].baseStat),
+                                      pokemonModel.stats![4].baseStat!),
                                   const SizedBox(height: 6),
-                                  statsWidget(
-                                      'Speed', pokemonModel.stats[5].baseStat),
+                                  statsWidget('Speed',
+                                      pokemonModel.stats![5].baseStat!),
                                   const SizedBox(height: 10),
                                 ],
                               ),

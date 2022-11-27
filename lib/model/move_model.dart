@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'package:pokedex_getx/model/pokemon_model.dart';
@@ -7,12 +8,12 @@ part 'move_model.g.dart';
 
 @JsonSerializable()
 class MoveModel {
-  final String? name;
-  final Type? type;
-  final int? accuracy;
-  final int? power;
-  final int? pp;
-  final int? priority;
+  String? name;
+  Type? type;
+  int? accuracy;
+  int? power;
+  int? pp;
+  int? priority;
 
   MoveModel({
     required this.name,
@@ -34,6 +35,15 @@ class MoveModel {
     };
   }
 
+  MoveModel.fromDocument(DocumentSnapshot? document) {
+    name = document?['name'];
+    type = Type.fromDocument(document?['type']);
+    accuracy = document?['accuracy'];
+    power = document?['power'];
+    pp = document?['pp'];
+    priority = document?['priority'];
+  }
+
   factory MoveModel.fromJson(Map<String, dynamic> json) =>
       _$MoveModelFromJson(json);
 
@@ -42,8 +52,8 @@ class MoveModel {
 
 @JsonSerializable()
 class ResultMoveModel {
-  final String name;
-  final String url;
+  String? name;
+  String? url;
 
   ResultMoveModel({
     required this.name,
@@ -55,6 +65,11 @@ class ResultMoveModel {
       'name': name,
       'url': url,
     };
+  }
+
+  ResultMoveModel.fromDocument(DocumentSnapshot? document) {
+    name = document?['name'];
+    url = document?['url'];
   }
 
   factory ResultMoveModel.fromJson(Map<String, dynamic> json) =>

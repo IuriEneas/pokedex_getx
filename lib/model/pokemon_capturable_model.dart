@@ -53,72 +53,91 @@ class PokemonCapModel {
     required this.level,
     required this.exp,
     required this.expMax,
+    this.hp = 0,
+    this.attack = 0,
+    this.defense = 0,
+    this.spAttack = 0,
+    this.spDefense = 0,
+    this.speed = 0,
+    this.hpEv = 0,
+    this.attackEv = 0,
+    this.defenseEv = 0,
+    this.spAttackEv = 0,
+    this.spDefenseEv = 0,
+    this.speedEv = 0,
+    this.hpIv = 0,
+    this.attackIv = 0,
+    this.defenseIv = 0,
+    this.spAttackIv = 0,
+    this.spDefenseIv = 0,
+    this.speedIv = 0,
   }) {
     Random random = Random();
 
-    hpEv = pokemonModel!.stats[0].effort;
-    attackEv = pokemonModel!.stats[1].effort;
-    defenseEv = pokemonModel!.stats[2].effort;
-    spAttackEv = pokemonModel!.stats[3].effort;
-    defenseEv = pokemonModel!.stats[4].effort;
-    spAttackEv = pokemonModel!.stats[5].effort;
+    if (hp == 0) {
+      hpEv = pokemonModel!.stats![0].effort!;
+      attackEv = pokemonModel!.stats![1].effort!;
+      defenseEv = pokemonModel!.stats![2].effort!;
+      spAttackEv = pokemonModel!.stats![3].effort!;
+      defenseEv = pokemonModel!.stats![4].effort!;
+      spAttackEv = pokemonModel!.stats![5].effort!;
 
-    hpIv = random.nextInt(31);
-    attackIv = random.nextInt(31);
-    defenseIv = random.nextInt(31);
-    spAttackIv = random.nextInt(31);
-    spDefenseIv = random.nextInt(31);
-    speedIv = random.nextInt(31);
+      hpIv = random.nextInt(31);
+      attackIv = random.nextInt(31);
+      defenseIv = random.nextInt(31);
+      spAttackIv = random.nextInt(31);
+      spDefenseIv = random.nextInt(31);
+      speedIv = random.nextInt(31);
 
-    hp = getStat(
-      ev: hpEv,
-      iv: hpIv,
-      stat: pokemonModel!.stats[0].baseStat,
-      statName: pokemonModel!.stats[0].stat.name,
-    );
+      hp = getStat(
+        ev: hpEv,
+        iv: hpIv,
+        stat: pokemonModel!.stats![0].baseStat!,
+        statName: pokemonModel!.stats![0].stat!.name!,
+      );
 
-    attack = getStat(
-      ev: attackEv,
-      iv: attackIv,
-      stat: pokemonModel!.stats[1].baseStat,
-      statName: pokemonModel!.stats[1].stat.name,
-    );
+      attack = getStat(
+        ev: attackEv,
+        iv: attackIv,
+        stat: pokemonModel!.stats![1].baseStat!,
+        statName: pokemonModel!.stats![1].stat!.name!,
+      );
 
-    defense = getStat(
-      ev: defenseEv,
-      iv: defenseIv,
-      stat: pokemonModel!.stats[2].baseStat,
-      statName: pokemonModel!.stats[2].stat.name,
-    );
+      defense = getStat(
+        ev: defenseEv,
+        iv: defenseIv,
+        stat: pokemonModel!.stats![2].baseStat!,
+        statName: pokemonModel!.stats![2].stat!.name!,
+      );
 
-    spAttack = getStat(
-      ev: spAttackEv,
-      iv: spAttackIv,
-      stat: pokemonModel!.stats[3].baseStat,
-      statName: pokemonModel!.stats[3].stat.name,
-    );
+      spAttack = getStat(
+        ev: spAttackEv,
+        iv: spAttackIv,
+        stat: pokemonModel!.stats![3].baseStat!,
+        statName: pokemonModel!.stats![3].stat!.name!,
+      );
 
-    spDefense = getStat(
-      ev: spDefenseEv,
-      iv: spDefenseIv,
-      stat: pokemonModel!.stats[4].baseStat,
-      statName: pokemonModel!.stats[4].stat.name,
-    );
+      spDefense = getStat(
+        ev: spDefenseEv,
+        iv: spDefenseIv,
+        stat: pokemonModel!.stats![4].baseStat!,
+        statName: pokemonModel!.stats![4].stat!.name!,
+      );
 
-    speed = getStat(
-      ev: speedEv,
-      iv: speedIv,
-      stat: pokemonModel!.stats[5].baseStat,
-      statName: pokemonModel!.stats[5].stat.name,
-    );
+      speed = getStat(
+        ev: speedEv,
+        iv: speedIv,
+        stat: pokemonModel!.stats![5].baseStat!,
+        statName: pokemonModel!.stats![5].stat!.name!,
+      );
+    }
   }
 
-  int getStat({
-    required int stat,
-    required int ev,
-    required int iv,
-    required String statName,
-  }) {
+  int getStat(
+      {required int stat,
+      required int ev,
+      required int iv,
+      required String statName}) {
     final int value;
 
     if (statName == 'hp') {
@@ -162,6 +181,7 @@ class PokemonCapModel {
       'hp': hp,
       'attack': attack,
       'defense': defense,
+      'spDefense': spDefense,
       'spAttack': spAttack,
       'speed': speed,
       'hpEv': hpEv,
@@ -183,8 +203,10 @@ class PokemonCapModel {
   PokemonCapModel.fromDocument(DocumentSnapshot? document) {
     id = document?.id;
     pokemonModel = PokemonModel.fromJson(document?['pokemonModel']);
-    pokemonSpeciesModel = document?['pokemonSpeciesModel'];
-    ownedMoves = document?['ownedMoves'];
+    pokemonSpeciesModel =
+        PokemonSpeciesModel.fromDocument(document?['pokemonSpeciesModel']);
+    ownedMoves =
+        MoveModel.fromDocument(document?['ownedMoves']) as List<MoveModel>?;
     level = document?['level'];
     exp = document?['exp'];
     expMax = document?['expMax'];
@@ -218,13 +240,13 @@ class PokemonCapModel {
 @JsonSerializable()
 class PokemonSpeciesModel {
   @JsonKey(name: 'capture_rate')
-  int captureRate;
+  int? captureRate;
 
   @JsonKey(name: 'evolution_chain')
-  EvolutionChain evolutionChain;
+  EvolutionChain? evolutionChain;
 
   @JsonKey(name: 'growth_rate')
-  GrowthRate growthRate;
+  GrowthRate? growthRate;
 
   PokemonSpeciesModel({
     required this.captureRate,
@@ -235,9 +257,15 @@ class PokemonSpeciesModel {
   Map<String, dynamic> toMap() {
     return {
       'captureRate': captureRate,
-      'evolutionChain': evolutionChain.toMap(),
-      'growthRate': growthRate.toMap(),
+      'evolutionChain': evolutionChain!.toMap(),
+      'growthRate': growthRate!.toMap(),
     };
+  }
+
+  PokemonSpeciesModel.fromDocument(DocumentSnapshot document) {
+    captureRate = document['captureRate'];
+    evolutionChain = EvolutionChain.fromDocument(document['evolutionChain']);
+    growthRate = GrowthRate.fromDocument(document['growthRate']);
   }
 
   factory PokemonSpeciesModel.fromJson(Map<String, dynamic> json) =>
@@ -252,7 +280,7 @@ class PokemonSpeciesModel {
 
 @JsonSerializable()
 class EvolutionChain {
-  String url;
+  String? url;
 
   EvolutionChain({
     required this.url,
@@ -264,6 +292,10 @@ class EvolutionChain {
     };
   }
 
+  EvolutionChain.fromDocument(DocumentSnapshot document) {
+    url = document['url'];
+  }
+
   factory EvolutionChain.fromJson(Map<String, dynamic> json) =>
       _$EvolutionChainFromJson(json);
 
@@ -272,8 +304,8 @@ class EvolutionChain {
 
 @JsonSerializable()
 class GrowthRate {
-  String name;
-  String url;
+  String? name;
+  String? url;
 
   GrowthRate({
     required this.name,
@@ -287,6 +319,11 @@ class GrowthRate {
     };
   }
 
+  GrowthRate.fromDocument(DocumentSnapshot document) {
+    name = document['name'];
+    url = document['url'];
+  }
+
   factory GrowthRate.fromJson(Map<String, dynamic> json) =>
       _$GrowthRateFromJson(json);
 
@@ -295,9 +332,9 @@ class GrowthRate {
 
 @JsonSerializable()
 class GrowthRateResult {
-  String name;
-  String formula;
-  List<Levels> levels;
+  String? name;
+  String? formula;
+  List<Levels>? levels;
 
   GrowthRateResult({
     required this.name,
@@ -309,8 +346,16 @@ class GrowthRateResult {
     return {
       'name': name,
       'formula': formula,
-      'levels': {for (var e in levels) levels.indexOf(e).toString(): e.toMap()}
+      'levels': {
+        for (var e in levels!) levels!.indexOf(e).toString(): e.toMap()
+      }
     };
+  }
+
+  GrowthRateResult.fromDocument(DocumentSnapshot document) {
+    name = document['name'];
+    formula = document['formula'];
+    levels = Levels.fromDocument(document['levels']) as List<Levels>?;
   }
 
   factory GrowthRateResult.fromJson(Map<String, dynamic> json) =>
@@ -321,8 +366,8 @@ class GrowthRateResult {
 
 @JsonSerializable()
 class Levels {
-  int experience;
-  int level;
+  int? experience;
+  int? level;
 
   Levels({
     required this.experience,
@@ -334,6 +379,11 @@ class Levels {
       'experience': experience,
       'level': level,
     };
+  }
+
+  Levels.fromDocument(DocumentSnapshot document) {
+    experience = document['experience'];
+    level = document['level'];
   }
 
   factory Levels.fromJson(Map<String, dynamic> json) => _$LevelsFromJson(json);

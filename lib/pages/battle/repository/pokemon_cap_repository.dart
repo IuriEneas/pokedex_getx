@@ -7,7 +7,7 @@ class PokemonCapRepository {
 
   Future<PokemonSpeciesModel> getPokemonSpecies(String name) async {
     final result = await _httpManager.restRequest(
-      url: Endpoints.pokemonSpeciesEndpoint(name),
+      url: name,
       method: HttpMethods.get,
     );
 

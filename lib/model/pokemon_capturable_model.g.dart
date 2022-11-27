@@ -21,27 +21,27 @@ PokemonCapModel _$PokemonCapModelFromJson(Map<String, dynamic> json) =>
       level: json['level'] as int?,
       exp: json['exp'] as int?,
       expMax: json['expMax'] as int?,
+      hp: json['hp'] as int? ?? 0,
+      attack: json['attack'] as int? ?? 0,
+      defense: json['defense'] as int? ?? 0,
+      spAttack: json['spAttack'] as int? ?? 0,
+      spDefense: json['spDefense'] as int? ?? 0,
+      speed: json['speed'] as int? ?? 0,
+      hpEv: json['hpEv'] as int? ?? 0,
+      attackEv: json['attackEv'] as int? ?? 0,
+      defenseEv: json['defenseEv'] as int? ?? 0,
+      spAttackEv: json['spAttackEv'] as int? ?? 0,
+      spDefenseEv: json['spDefenseEv'] as int? ?? 0,
+      speedEv: json['speedEv'] as int? ?? 0,
+      hpIv: json['hpIv'] as int? ?? 0,
+      attackIv: json['attackIv'] as int? ?? 0,
+      defenseIv: json['defenseIv'] as int? ?? 0,
+      spAttackIv: json['spAttackIv'] as int? ?? 0,
+      spDefenseIv: json['spDefenseIv'] as int? ?? 0,
+      speedIv: json['speedIv'] as int? ?? 0,
     )
       ..id = json['id'] as String?
       ..damageTaken = json['damageTaken'] as int
-      ..hp = json['hp'] as int
-      ..attack = json['attack'] as int
-      ..defense = json['defense'] as int
-      ..spAttack = json['spAttack'] as int
-      ..spDefense = json['spDefense'] as int
-      ..speed = json['speed'] as int
-      ..hpEv = json['hpEv'] as int
-      ..attackEv = json['attackEv'] as int
-      ..defenseEv = json['defenseEv'] as int
-      ..spAttackEv = json['spAttackEv'] as int
-      ..spDefenseEv = json['spDefenseEv'] as int
-      ..speedEv = json['speedEv'] as int
-      ..hpIv = json['hpIv'] as int
-      ..attackIv = json['attackIv'] as int
-      ..defenseIv = json['defenseIv'] as int
-      ..spAttackIv = json['spAttackIv'] as int
-      ..spDefenseIv = json['spDefenseIv'] as int
-      ..speedIv = json['speedIv'] as int
       ..isAlive = json['isAlive'] as bool;
 
 Map<String, dynamic> _$PokemonCapModelToJson(PokemonCapModel instance) =>
@@ -77,11 +77,14 @@ Map<String, dynamic> _$PokemonCapModelToJson(PokemonCapModel instance) =>
 
 PokemonSpeciesModel _$PokemonSpeciesModelFromJson(Map<String, dynamic> json) =>
     PokemonSpeciesModel(
-      captureRate: json['capture_rate'] as int,
-      evolutionChain: EvolutionChain.fromJson(
-          json['evolution_chain'] as Map<String, dynamic>),
-      growthRate:
-          GrowthRate.fromJson(json['growth_rate'] as Map<String, dynamic>),
+      captureRate: json['capture_rate'] as int?,
+      evolutionChain: json['evolution_chain'] == null
+          ? null
+          : EvolutionChain.fromJson(
+              json['evolution_chain'] as Map<String, dynamic>),
+      growthRate: json['growth_rate'] == null
+          ? null
+          : GrowthRate.fromJson(json['growth_rate'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$PokemonSpeciesModelToJson(
@@ -94,7 +97,7 @@ Map<String, dynamic> _$PokemonSpeciesModelToJson(
 
 EvolutionChain _$EvolutionChainFromJson(Map<String, dynamic> json) =>
     EvolutionChain(
-      url: json['url'] as String,
+      url: json['url'] as String?,
     );
 
 Map<String, dynamic> _$EvolutionChainToJson(EvolutionChain instance) =>
@@ -103,8 +106,8 @@ Map<String, dynamic> _$EvolutionChainToJson(EvolutionChain instance) =>
     };
 
 GrowthRate _$GrowthRateFromJson(Map<String, dynamic> json) => GrowthRate(
-      name: json['name'] as String,
-      url: json['url'] as String,
+      name: json['name'] as String?,
+      url: json['url'] as String?,
     );
 
 Map<String, dynamic> _$GrowthRateToJson(GrowthRate instance) =>
@@ -115,10 +118,10 @@ Map<String, dynamic> _$GrowthRateToJson(GrowthRate instance) =>
 
 GrowthRateResult _$GrowthRateResultFromJson(Map<String, dynamic> json) =>
     GrowthRateResult(
-      name: json['name'] as String,
-      formula: json['formula'] as String,
-      levels: (json['levels'] as List<dynamic>)
-          .map((e) => Levels.fromJson(e as Map<String, dynamic>))
+      name: json['name'] as String?,
+      formula: json['formula'] as String?,
+      levels: (json['levels'] as List<dynamic>?)
+          ?.map((e) => Levels.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -130,8 +133,8 @@ Map<String, dynamic> _$GrowthRateResultToJson(GrowthRateResult instance) =>
     };
 
 Levels _$LevelsFromJson(Map<String, dynamic> json) => Levels(
-      experience: json['experience'] as int,
-      level: json['level'] as int,
+      experience: json['experience'] as int?,
+      level: json['level'] as int?,
     );
 
 Map<String, dynamic> _$LevelsToJson(Levels instance) => <String, dynamic>{

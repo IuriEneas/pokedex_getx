@@ -73,7 +73,7 @@ class BaseController extends GetxController {
     }
 
     pokemonList.sort(
-      (a, b) => a.id.compareTo(b.id),
+      (a, b) => a.id!.compareTo(b.id!),
     );
 
     resultModel = await repository.getResult(endpoint: resultModel?.next);
@@ -110,7 +110,7 @@ class BaseController extends GetxController {
 
   _searchByName(String query) {
     for (PokemonModel it in pokemonList) {
-      if (it.name.contains(query)) {
+      if (it.name!.contains(query)) {
         queryList.add(it);
       }
     }
@@ -126,11 +126,11 @@ class BaseController extends GetxController {
 
   _searchByType(String query) {
     for (PokemonModel it in pokemonList) {
-      if (it.types[0].type.name.contains(query)) {
+      if (it.types![0].type!.name!.contains(query)) {
         queryList.add(it);
       } else {
-        if (it.types.length > 1) {
-          if (it.types[1].type.name.contains(query)) {
+        if (it.types!.length > 1) {
+          if (it.types![1].type!.name!.contains(query)) {
             queryList.add(it);
           }
         }
