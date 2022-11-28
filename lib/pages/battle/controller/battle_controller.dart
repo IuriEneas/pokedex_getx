@@ -15,7 +15,7 @@ class BattleController extends GetxController {
   final repository = PokemonCapRepository();
   final pokemonRepository = PokemonRepository();
   late PokemonCapModel pokemon;
-  late PokemonCapModel opoPokemon;
+  PokemonCapModel? opoPokemon;
 
   final CollectionReference pokemonRef =
       FirebaseFirestore.instance.collection('myPokemon');
@@ -33,12 +33,18 @@ class BattleController extends GetxController {
     Random random = Random();
     int randomPoke = random.nextInt(controller.pokemonList.length - 1);
 
+    if (controller.pokemonList[randomPoke].id! > 10000) {
+      do {
+        randomPoke = random.nextInt(controller.pokemonList.length - 1);
+      } while (controller.pokemonList[randomPoke].id! > 10000);
+    }
+
     querySnapshot = await pokemonRef.get();
+
+    await getPokemon(controller.pokemonList[randomPoke]);
 
     if (querySnapshot.docs.isNotEmpty) {
       documentSnapshot = querySnapshot.docs[0];
-
-      await getPokemon(controller.pokemonList[randomPoke]);
       pokemon = PokemonHelper.convert(documentSnapshot);
     }
   }

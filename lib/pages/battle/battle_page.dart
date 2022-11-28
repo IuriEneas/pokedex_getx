@@ -31,7 +31,7 @@ class BattlePage extends StatelessWidget {
                   Column(
                     children: [
                       DataWidget(
-                        pokemon: _.opoPokemon,
+                        pokemon: _.opoPokemon!,
                         isOpponent: true,
                       ),
                       _pokemonWidget(),
@@ -110,7 +110,7 @@ class BattlePage extends StatelessWidget {
           children: [
             Image.network(
               isOpponent
-                  ? controller.opoPokemon.pokemonModel!.sprites!.frontDefault
+                  ? controller.opoPokemon!.pokemonModel!.sprites!.frontDefault
                       as String
                   : controller.pokemon.pokemonModel!.sprites!.backDefault ??
                       controller.pokemon.pokemonModel!.sprites!.frontDefault
@@ -161,7 +161,7 @@ class BattlePage extends StatelessWidget {
           itemBuilder: (context, index) {
             return ElevatedButton(
               onPressed: () {
-                _.attack(_.pokemon, _.opoPokemon, index);
+                _.attack(_.pokemon, _.opoPokemon!, index);
               },
               child: Text(_.pokemon.ownedMoves![index].name as String),
             );
