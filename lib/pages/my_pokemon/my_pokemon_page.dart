@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:pokedex_getx/pages/battle/controller/battle_controller.dart';
 import 'package:pokedex_getx/pages/my_pokemon/controller/my_pokemon_controller.dart';
 import 'package:pokedex_getx/pages/my_pokemon/widgets/my_pokemon_widgets.dart';
+import 'package:pokedex_getx/services/helper.dart';
 
 class MyPokemonPage extends StatelessWidget {
   MyPokemonPage({super.key});
@@ -37,7 +38,7 @@ class MyPokemonPage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         _.documentSnapshot = snapshot.data!.docs[index];
                         return MyPokemonTile(
-                          pokemon: _.documentSnapshot,
+                          pokemon: PokemonHelper.convert(_.documentSnapshot),
                         );
                       },
                     ),
