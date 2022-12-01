@@ -18,24 +18,40 @@ class MyPokemonTile extends StatelessWidget {
           Get.toNamed(PagesRoute.myPokemonRoute, arguments: pokemon);
         },
         child: Container(
+          // Outside container decoration
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Colors.white,
           ),
           child: Container(
+            // Main container decoration
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: PokemonTypeColor.pokemonType(
                       pokemon.pokemonModel!.types![0].type!.name!)
                   .withAlpha(120),
+              border: const Border(
+                bottom: BorderSide(width: 1, color: Colors.black),
+                left: BorderSide(width: 1, color: Colors.black),
+                right: BorderSide(width: 1, color: Colors.black),
+                top: BorderSide(width: 1, color: Colors.black),
+              ),
             ),
+
+            // Tile Data
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Pokemon Image
                 Image.network(
                   pokemon.pokemonModel!.sprites!.frontDefault!,
-                  fit: BoxFit.cover,
+                  fit: BoxFit.contain,
                 ),
-                Text(pokemon.pokemonModel!.name!),
+
+                // Pokemon name
+                Text(pokemon.pokemonModel!.realName),
+
+                // Pokemon level
                 Text('Lvl: ${pokemon.level}'),
               ],
             ),

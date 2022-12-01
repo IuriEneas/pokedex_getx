@@ -7,45 +7,45 @@ abstract class PokemonTypeColor {
   static Color pokemonType(String type) {
     switch (type) {
       case 'normal':
-        return const Color.fromRGBO(202, 152, 166, 1);
+        return const Color.fromRGBO(116, 116, 118, 1);
       case 'fighting':
-        return const Color.fromRGBO(253, 75, 90, 1);
+        return const Color.fromRGBO(253, 128, 0, 1);
       case 'flying':
-        return const Color.fromRGBO(148, 178, 199, 1);
+        return const Color.fromRGBO(127, 182, 237, 1);
       case 'poison':
-        return const Color.fromRGBO(155, 105, 218, 1);
+        return const Color.fromRGBO(145, 65, 204, 1);
       case 'ground':
-        return const Color.fromRGBO(110, 73, 31, 1);
+        return const Color.fromRGBO(145, 80, 32, 1);
       case 'rock':
-        return const Color.fromRGBO(139, 62, 34, 1);
+        return const Color.fromRGBO(175, 169, 129, 1);
       case 'bug':
-        return const Color.fromRGBO(60, 153, 80, 1);
+        return const Color.fromRGBO(145, 160, 24, 1);
       case 'ghost':
-        return const Color.fromRGBO(144, 103, 145, 1);
+        return const Color.fromRGBO(109, 63, 111, 1);
       case 'steel':
-        return const Color.fromRGBO(67, 189, 148, 1);
+        return const Color.fromRGBO(90, 143, 159, 1);
       case 'fire':
-        return const Color.fromRGBO(253, 75, 90, 1);
+        return const Color.fromRGBO(231, 40, 41, 1);
       case 'water':
-        return const Color.fromRGBO(133, 168, 251, 1);
+        return const Color.fromRGBO(41, 128, 239, 1);
       case 'grass':
-        return const Color.fromRGBO(39, 203, 80, 1);
+        return const Color.fromRGBO(66, 160, 41, 1);
       case 'electric':
-        return const Color.fromRGBO(250, 250, 114, 1);
+        return const Color.fromRGBO(250, 192, 0, 1);
       case 'psychic':
-        return const Color.fromRGBO(247, 29, 146, 1);
+        return const Color.fromRGBO(242, 64, 120, 1);
       case 'ice':
-        return const Color.fromARGB(255, 173, 232, 255);
+        return const Color.fromRGBO(63, 216, 255, 1);
       case 'dragon':
-        return const Color.fromRGBO(98, 202, 217, 1);
+        return const Color.fromRGBO(79, 97, 224, 1);
       case 'dark':
-        return const Color.fromRGBO(89, 89, 120, 1);
+        return const Color.fromRGBO(79, 65, 63, 1);
       case 'fairy':
-        return const Color.fromRGBO(233, 19, 104, 1);
+        return const Color.fromRGBO(242, 111, 242, 1);
       case 'unknown':
-        return const Color.fromARGB(153, 99, 99, 99);
+        return const Color.fromARGB(235, 0, 0, 0);
       case 'shadow':
-        return const Color.fromARGB(153, 90, 40, 151);
+        return const Color.fromRGBO(21, 22, 50, 1);
     }
 
     return Colors.black.withAlpha(40);

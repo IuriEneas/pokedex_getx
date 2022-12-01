@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../../../../constants/app_constants.dart';
 
-Widget typeWidget(String text) {
+Widget typeWidget(String text, {double width = 100}) {
   return Container(
     decoration: BoxDecoration(
       color: PokemonTypeColor.pokemonType(text),
       borderRadius: BorderRadius.circular(20),
     ),
-    width: 100,
+    width: width,
     child: Center(
       child: Padding(
         padding: const EdgeInsets.all(8.0),

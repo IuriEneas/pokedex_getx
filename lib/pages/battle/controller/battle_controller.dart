@@ -119,7 +119,7 @@ class BattleController extends GetxController {
       pokemonSpeciesModel: pokemonSpeciesModel,
       ownedMoves: [],
       level: level,
-      exp: growth.levels![level - 1].experience,
+      exp: 0,
       expMax: growth.levels![level].experience,
     );
 

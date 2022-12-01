@@ -25,6 +25,7 @@ class MyPokemonDetailPage extends StatelessWidget {
           physics: const NeverScrollableScrollPhysics(),
           child: SafeArea(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Pokemon Stats and image
                 SizedBox(
@@ -38,6 +39,20 @@ class MyPokemonDetailPage extends StatelessWidget {
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
+                            // Pokemon id
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: typeWidget(
+                                  UtilsServices.verifyText(
+                                      pokemon.pokemonModel!.id!),
+                                  width: 60,
+                                ),
+                              ),
+                            ),
+
                             // Circle Detail
                             Positioned(
                               top: 0,
@@ -55,10 +70,10 @@ class MyPokemonDetailPage extends StatelessWidget {
                             Hero(
                               tag: pokemon.pokemonModel!.name!,
                               child: Image.network(
-                                pokemon.pokemonModel!.sprites!.other!
-                                    .officialArtWork!.frontDefault as String,
-                                height: 300,
-                                width: 300,
+                                pokemon.pokemonModel!.sprites!.frontDefault!,
+                                height: 270,
+                                width: 270,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ],
@@ -70,12 +85,6 @@ class MyPokemonDetailPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            // Pokemon id
-                            typeWidget(
-                              UtilsServices.verifyText(
-                                  pokemon.pokemonModel!.id!),
-                            ),
-
                             // Pokemon Name
                             Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -83,7 +92,7 @@ class MyPokemonDetailPage extends StatelessWidget {
                                 pokemon.pokemonModel!.realName,
                                 textAlign: TextAlign.end,
                                 style: const TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 30,
                                 ),
                               ),
                             ),
@@ -106,31 +115,10 @@ class MyPokemonDetailPage extends StatelessWidget {
                                   pokemon.pokemonModel!.types![0].type!.name!),
                             ],
 
-                            // Pokemon height
-                            Padding(
-                              padding: const EdgeInsets.all(6.0),
-                              child: Text(
-                                '${(pokemon.pokemonModel!.height! / 10).toString()} m',
-                                style: const TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-
-                            // Pokemon Weigh
-                            Text(
-                              '${(pokemon.pokemonModel!.weight! / 10).toString()} kg',
-                              style: const TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-
                             const SizedBox(height: 10),
 
                             // Pokemon stats
-                            Container(
+                            /*Container(
                               margin: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
@@ -140,8 +128,6 @@ class MyPokemonDetailPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   const SizedBox(height: 10),
-                                  statsWidget('Hp', pokemon.hp),
-                                  const SizedBox(height: 6),
                                   statsWidget('Attack', pokemon.attack),
                                   const SizedBox(height: 6),
                                   statsWidget('Defense', pokemon.defense),
@@ -154,6 +140,63 @@ class MyPokemonDetailPage extends StatelessWidget {
                                   const SizedBox(height: 10),
                                 ],
                               ),
+                            ),*/
+
+                            Text(
+                              '${(pokemon.hp - pokemon.damageTaken)} / ${(pokemon.hp)}',
+                              style: const TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+
+                            // Hp Bar
+                            _progressBar(
+                              percent: pokemon.percentDamage,
+                              color: Colors.green[700] as Color,
+                              height: 20,
+                              reverse: true,
+                            ),
+
+                            // Exp Bar
+                            _progressBar(
+                              height: 15,
+                              percent: 36,
+                              color: Colors.blue[700] as Color,
+                              edgeInsets:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                            ),
+
+                            // Pokemon Level
+                            Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Text(
+                                'Level: ${(pokemon.level)}',
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: GridView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 9 / 5,
+                                    crossAxisSpacing: 8,
+                                    mainAxisSpacing: 8,
+                                  ),
+                                  itemCount: pokemon.ownedMoves!.length,
+                                  itemBuilder: (context, index) {
+                                    return _insideMove(index);
+                                  },
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -165,6 +208,95 @@ class MyPokemonDetailPage extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  _insideMove(int index) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Colors.white.withAlpha(70),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            top: 10,
+            right: 10,
+            child: _circleDecoration(PokemonTypeColor.pokemonType(
+                pokemon.ownedMoves![index].type!.name!)),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                UtilsServices.formatString(pokemon.ownedMoves![index].name!),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 22,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  _circleDecoration(Color color) {
+    return Container(
+      height: 20,
+      width: 20,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: color,
+      ),
+    );
+  }
+
+  _progressBar({
+    required double height,
+    required double percent,
+    required Color color,
+    bool reverse = false,
+    EdgeInsets edgeInsets = const EdgeInsets.all(10),
+  }) {
+    return Container(
+      margin: edgeInsets,
+      height: height,
+      width: size.width,
+      decoration: BoxDecoration(
+        color: Colors.white.withAlpha(90),
+        borderRadius: BorderRadius.circular(5),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: reverse
+                ? (size.width - 20) * (1 - (percent / 100))
+                : (size.width - 20) * (percent / 100),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: color,
+            ),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 2,
+                ),
+                Container(
+                  height: 5,
+                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white.withAlpha(30),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

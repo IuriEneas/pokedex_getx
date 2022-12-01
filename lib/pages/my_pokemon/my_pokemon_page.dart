@@ -13,50 +13,53 @@ class MyPokemonPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<BattleController>(
-      builder: (_) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            StreamBuilder(
-              stream:
-                  _.pokemonRef.orderBy('level', descending: true).snapshots(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.hasData) {
-                  _.querySnapshot = snapshot.data!;
-                  return Expanded(
-                    child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 1,
-                        crossAxisSpacing: 0,
-                        mainAxisSpacing: 0,
+    return Container(
+      color: Colors.red,
+      child: GetBuilder<BattleController>(
+        builder: (_) {
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              StreamBuilder(
+                stream:
+                    _.pokemonRef.orderBy('level', descending: true).snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    _.querySnapshot = snapshot.data!;
+                    return Expanded(
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 1,
+                          crossAxisSpacing: 0,
+                          mainAxisSpacing: 0,
+                        ),
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          _.documentSnapshot = snapshot.data!.docs[index];
+                          return MyPokemonTile(
+                            pokemon: PokemonHelper.convert(_.documentSnapshot),
+                          );
+                        },
                       ),
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        _.documentSnapshot = snapshot.data!.docs[index];
-                        return MyPokemonTile(
-                          pokemon: PokemonHelper.convert(_.documentSnapshot),
-                        );
-                      },
-                    ),
-                  );
-                } else {
-                  return Container();
-                }
-              },
-            ),
-            ElevatedButton(
-              onPressed: () {
-                controller.savePokemon();
-              },
-              child: const Text('save'),
-            ),
-          ],
-        );
-      },
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  controller.savePokemon();
+                },
+                child: const Text('save'),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

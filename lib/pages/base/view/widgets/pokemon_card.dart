@@ -22,39 +22,56 @@ class PokemonCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: PokemonTypeColor.pokemonType(pokemon.types![0].type!.name!)
-              .withAlpha(150),
+          color: Colors.white,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.black.withAlpha(30),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: Text(UtilsServices.verifyText(pokemon.id!)),
-              ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: PokemonTypeColor.pokemonType(pokemon.types![0].type!.name!)
+                .withAlpha(150),
+            border: const Border(
+              bottom: BorderSide(width: 1, color: Colors.black),
+              left: BorderSide(width: 1, color: Colors.black),
+              right: BorderSide(width: 1, color: Colors.black),
+              top: BorderSide(width: 1, color: Colors.black),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Hero(
-                tag: pokemon.name!,
-                child: Image.network(
-                  pokemon.sprites!.other!.officialArtWork!.frontDefault
-                      as String,
-                  height: 80,
-                  width: 80,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // ID detail
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.black.withAlpha(30),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Text(UtilsServices.verifyText(pokemon.id!)),
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(pokemon.realName),
-            ),
-          ],
+
+              // Pokemon Img
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Hero(
+                  tag: pokemon.name!,
+                  child: Image.network(
+                    pokemon.sprites!.other!.officialArtWork!.frontDefault
+                        as String,
+                    height: 80,
+                    width: 80,
+                  ),
+                ),
+              ),
+
+              // Pokemon Name
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(pokemon.realName),
+              ),
+            ],
+          ),
         ),
       ),
     );
