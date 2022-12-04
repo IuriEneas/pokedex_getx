@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:pokedex_getx/pages/base/binding/base_binding.dart';
 import 'package:pokedex_getx/pages/base/view/base_page.dart';
 import 'package:pokedex_getx/pages/battle/battle_page.dart';
+import 'package:pokedex_getx/pages/battle/widgets/select_item_page.dart';
+import 'package:pokedex_getx/pages/battle/widgets/select_pokemon_page.dart';
 import 'package:pokedex_getx/pages/my_pokemon_detail/my_pokemon_detail_page.dart';
 import 'package:pokedex_getx/pages/pokemon_detail/view/pokemon_page.dart';
 import 'package:pokedex_getx/pages/query/query_page.dart';
@@ -34,6 +36,14 @@ abstract class AppPages {
       name: PagesRoute.myPokemonRoute,
       page: () => MyPokemonDetailPage(),
     ),
+    GetPage(
+      name: PagesRoute.selectPokemonRoute,
+      page: () => SelectPokemonPage(),
+    ),
+    GetPage(
+      name: PagesRoute.selectItemRoute,
+      page: () => SelectItemPage(),
+    ),
   ];
 }
 
@@ -43,5 +53,7 @@ abstract class PagesRoute {
   static const String splashRoute = '/splash';
   static const String queryRoute = '/query';
   static const String battleRoute = '/battle';
-  static const String myPokemonRoute = '/myPokemon';
+  static const String myPokemonRoute = '/my_pokemon';
+  static const String selectPokemonRoute = '/select_pokemon';
+  static const String selectItemRoute = '/select_item';
 }

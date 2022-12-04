@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:pokedex_getx/pages/base/controller/base_controller.dart';
 import 'package:pokedex_getx/pages/pokemon_detail/controller/pokemon_controller.dart';
 import 'package:pokedex_getx/routes/page_routes.dart';
+import 'package:pokedex_getx/services/notification_service.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,7 +13,16 @@ void main() async {
   Get.put(BaseController());
   Get.put(PokemonController());
 
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider<NotificationService>(
+          create: (context) => NotificationService(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

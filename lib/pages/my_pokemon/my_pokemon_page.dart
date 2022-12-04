@@ -26,6 +26,8 @@ class MyPokemonPage extends StatelessWidget {
                 builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                   if (snapshot.hasData) {
                     _.querySnapshot = snapshot.data!;
+
+                    // Container data
                     return Expanded(
                       child: GridView.builder(
                         gridDelegate:
@@ -46,13 +48,16 @@ class MyPokemonPage extends StatelessWidget {
                       ),
                     );
                   } else {
+                    // Error container
                     return Container();
                   }
                 },
               ),
+
+              // Test Button
               ElevatedButton(
                 onPressed: () {
-                  controller.savePokemon();
+                  controller.showNotification();
                 },
                 child: const Text('save'),
               ),

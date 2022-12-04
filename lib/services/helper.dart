@@ -77,6 +77,8 @@ abstract class PokemonHelper {
       speed: snapshot['speed'],
       speedEv: snapshot['speedEv'],
       speedIv: snapshot['speedIv'],
+      damageTaken: snapshot['damageTaken'],
+      isAlive: snapshot['isAlive'],
       pokemonModel: pokeModel,
       pokemonSpeciesModel: speciesModel,
       ownedMoves: ownedMoves,

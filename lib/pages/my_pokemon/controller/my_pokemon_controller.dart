@@ -1,9 +1,10 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:pokedex_getx/pages/base/controller/base_controller.dart';
-import 'package:pokedex_getx/pages/battle/controller/battle_controller.dart';
+import 'package:pokedex_getx/routes/page_routes.dart';
+import 'package:pokedex_getx/services/notification_service.dart';
+import 'package:provider/provider.dart';
 
 class MyPokemonController extends GetxController {
   final CollectionReference pokemonRef =
@@ -13,37 +14,33 @@ class MyPokemonController extends GetxController {
   late QuerySnapshot querySnapshot;
 
   final controller = Get.find<BaseController>();
-  final _ = Get.find<BattleController>();
 
   void getPokemon() async {}
 
-  bool capturePokemon(double captureRate) {
-    Random random = Random();
-
-    List<double> chances = [captureRate];
-    bool dropped = false;
-    double n = random.nextDouble() * 100;
-
-    for (int i = 0; i < chances.length; i++) {
-      if (chances[i] >= n) {
-        print("Capturou o pokemon com ${chances[i]}% de chance ($n)");
-        dropped = true;
-        break;
-      }
-    }
-    if (dropped == false) {
-      print("Não capturou");
-    }
-
-    return dropped;
+  @override
+  void onInit() {
+    checkNotifications();
+    super.onInit();
   }
 
-  void savePokemon() async {
-    final random = Random();
-    final listSize = controller.pokemonList.length;
-    final pokemonModel = controller.pokemonList[random.nextInt(listSize - 1)];
+  showNotification() {
+    Provider.of<NotificationService>(Get.context as BuildContext, listen: false)
+        .showNotificationScheduled(
+      CustomNotification(
+        id: 1,
+        title: 'Um novo pokemón apareceu',
+        body:
+            'Um novo pokemón apareceu, venha captura-lo antes que seja tarde 😍',
+        payload: PagesRoute.splashRoute,
+      ),
+      const Duration(seconds: 5),
+    );
+  }
 
-    final pokemon = await _.createPokemon(pokemonModel);
-    await pokemonRef.doc().set(pokemon.toMap());
+  checkNotifications() async {
+    await Provider.of<NotificationService>(
+      Get.context as BuildContext,
+      listen: false,
+    ).checkForNotifications();
   }
 }

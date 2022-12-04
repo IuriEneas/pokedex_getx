@@ -53,6 +53,8 @@ class PokemonCapModel {
     required this.level,
     required this.exp,
     required this.expMax,
+    this.isAlive = true,
+    this.damageTaken = 0,
     this.hp = 0,
     this.attack = 0,
     this.defense = 0,

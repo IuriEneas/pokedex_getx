@@ -161,7 +161,7 @@ class MyPokemonDetailPage extends StatelessWidget {
                             // Exp Bar
                             _progressBar(
                               height: 15,
-                              percent: 36,
+                              percent: pokemon.percentExp,
                               color: Colors.blue[700] as Color,
                               edgeInsets:
                                   const EdgeInsets.symmetric(horizontal: 10),

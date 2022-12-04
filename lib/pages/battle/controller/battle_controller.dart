@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:pokedex_getx/model/move_model.dart';
 import 'package:pokedex_getx/model/pokemon_model.dart';
 import 'package:pokedex_getx/pages/base/controller/base_controller.dart';
 import 'package:pokedex_getx/pages/battle/repository/pokemon_cap_repository.dart';
@@ -9,6 +10,7 @@ import 'package:pokedex_getx/pages/pokemon_detail/repository/pokemon_repository.
 import 'package:pokedex_getx/services/helper.dart';
 
 import '../../../model/pokemon_capturable_model.dart';
+import '../../../routes/page_routes.dart';
 
 class BattleController extends GetxController {
   final controller = Get.find<BaseController>();
@@ -16,6 +18,9 @@ class BattleController extends GetxController {
   final pokemonRepository = PokemonRepository();
   late PokemonCapModel pokemon;
   PokemonCapModel? opoPokemon;
+  bool isGridviewVisible = true;
+
+  List<DocumentSnapshot> myPokemonList = [];
 
   final CollectionReference pokemonRef =
       FirebaseFirestore.instance.collection('myPokemon');
@@ -24,24 +29,24 @@ class BattleController extends GetxController {
   late QuerySnapshot querySnapshot;
 
   @override
-  void onInit() {
-    randomPokemon();
+  void onInit() async {
+    await randomPokemon();
+    await myPokemon();
     super.onInit();
   }
 
+  myPokemon() {
+    myPokemonList = querySnapshot.docs;
+  }
+
   randomPokemon() async {
-    Random random = Random();
-    int randomPoke = random.nextInt(controller.pokemonList.length - 1);
-
-    if (controller.pokemonList[randomPoke].id! > 10000) {
-      do {
-        randomPoke = random.nextInt(controller.pokemonList.length - 1);
-      } while (controller.pokemonList[randomPoke].id! > 10000);
-    }
-
     querySnapshot = await pokemonRef.get();
+    opoPokemon = await notificationPokemon();
 
-    await getPokemon(controller.pokemonList[randomPoke]);
+    if (isFirstPokemon()) {
+      pokemon = await createPokemon(controller.pokemonList.first);
+      savePokemon(pokemon);
+    }
 
     if (querySnapshot.docs.isNotEmpty) {
       documentSnapshot = querySnapshot.docs[0];
@@ -49,20 +54,17 @@ class BattleController extends GetxController {
     }
   }
 
-  Future<void> getPokemon(PokemonModel pokemon) async {
-    opoPokemon = await createPokemon(pokemon);
-  }
-
   attack(PokemonCapModel pokemon, PokemonCapModel oPokemon, int index) async {
     if (pokemon.isAlive) {
-      oPokemon.damageTaken += pokemon.ownedMoves![index].power as int;
+      int i = pokemon.ownedMoves![index].power!;
+
+      oPokemon.damageTaken +=
+          ((i * opoPokemon!.hp) / 100 - opoPokemon!.defense).toInt();
 
       if (oPokemon.damageTaken >= oPokemon.hp) {
         oPokemon.isAlive = false;
       }
 
-      print(pokemon.ownedMoves![index].power);
-      print(oPokemon.isAlive);
       update();
     }
     await Future.delayed(const Duration(seconds: 1));
@@ -82,13 +84,26 @@ class BattleController extends GetxController {
     return damageTaken + damageDelt;
   }
 
+  Future<PokemonCapModel> notificationPokemon() async {
+    Random r = Random();
+    int randomPoke;
+
+    do {
+      randomPoke = r.nextInt(controller.pokemonList.length - 1);
+    } while (controller.pokemonList[randomPoke].id! > 10000);
+
+    final pokemonModel = controller.pokemonList[randomPoke];
+
+    return await createPokemon(pokemonModel);
+  }
+
   Future<PokemonCapModel> createPokemon(PokemonModel pokemonModel) async {
     final pokemonSpeciesModel =
         await repository.getPokemonSpecies(pokemonModel.species!.url!);
 
     pokemonModel.completeMoves = [];
     final random = Random();
-    int num = random.nextInt(4);
+    int num = random.nextInt(5);
     final moveNum = pokemonModel.moves!.length;
 
     if (num == 0) num = 1;
@@ -96,18 +111,14 @@ class BattleController extends GetxController {
     for (var i = 1; i <= num; i++) {
       int randomMoves = random.nextInt(moveNum);
 
-      if (randomMoves == 0) randomMoves = 1;
-
-      pokemonModel.completeMoves?.add(
-        await pokemonRepository.getMove(
-          pokemonModel.moves![randomMoves].move!.name!,
-        ),
-      );
+      _verificationMove(pokemonModel, moveNum)
+          ? pokemonModel.completeMoves?.add(
+              await pokemonRepository.getMove(
+                pokemonModel.moves![randomMoves].move!.name!,
+              ),
+            )
+          : i - 1;
     }
-
-    int randomLvl = random.nextInt(100);
-
-    if (randomLvl == 0) randomLvl = 1;
 
     final growth = await repository
         .getPokemonGrowth(pokemonSpeciesModel.growthRate!.name!);
@@ -128,6 +139,17 @@ class BattleController extends GetxController {
     poke.pokemonModel!.completeMoves!.clear();
 
     return poke;
+  }
+
+  bool _verificationMove(PokemonModel pokemonModel, int moveNumber) {
+    for (MoveModel move in pokemonModel.completeMoves!) {
+      if (move.name!
+          .contains(pokemonModel.moves![moveNumber - 1].move!.name!)) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   int media() {
@@ -167,5 +189,50 @@ class BattleController extends GetxController {
   bool isFirstPokemon() {
     if (querySnapshot.docs.isEmpty) return true;
     return false;
+  }
+
+  void gridViewVisibility() {
+    isGridviewVisible ? isGridviewVisible = false : isGridviewVisible = true;
+    update();
+  }
+
+  void choosePokemon() async {
+    final result = await Get.toNamed(PagesRoute.selectPokemonRoute);
+
+    pokemon = result ?? pokemon;
+    update();
+  }
+
+  void capturePokemon(double captureRate, PokemonCapModel pokemonCapModel) {
+    Random random = Random();
+
+    List<double> chances = [captureRate];
+    bool dropped = false;
+    double n = random.nextDouble() * 100;
+
+    for (int i = 0; i < chances.length; i++) {
+      if (chances[i] >= n) {
+        print("Capturou o pokemon com ${chances[i]}% de chance ($n)");
+        savePokemon(pokemonCapModel);
+        dropped = true;
+        break;
+      }
+    }
+    if (dropped == false) {
+      print("Não capturou");
+    }
+  }
+
+  void savePokemon(PokemonCapModel pokemon) async {
+    await pokemonRef.doc().set(pokemon.toMap());
+    Get.back();
+  }
+
+  void choosePokeball() async {
+    final result = await Get.toNamed(PagesRoute.selectItemRoute);
+    if (result != null) {
+      capturePokemon(result.captureRate + .0, opoPokemon!);
+    }
+    update();
   }
 }

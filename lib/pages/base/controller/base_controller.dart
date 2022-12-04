@@ -127,11 +127,15 @@ class BaseController extends GetxController {
   _searchByType(String query) {
     for (PokemonModel it in pokemonList) {
       if (it.types![0].type!.name!.contains(query)) {
-        queryList.add(it);
+        if (!it.name!.contains(query)) {
+          queryList.add(it);
+        }
       } else {
         if (it.types!.length > 1) {
           if (it.types![1].type!.name!.contains(query)) {
-            queryList.add(it);
+            if (!it.name!.contains(query)) {
+              queryList.add(it);
+            }
           }
         }
       }
