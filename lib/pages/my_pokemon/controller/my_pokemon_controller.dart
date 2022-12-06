@@ -20,20 +20,21 @@ class MyPokemonController extends GetxController {
   @override
   void onInit() {
     checkNotifications();
+    showMinuteByMinute();
     super.onInit();
   }
 
-  showNotification() {
-    Provider.of<NotificationService>(Get.context as BuildContext, listen: false)
-        .showNotificationScheduled(
+  showMinuteByMinute() async {
+    await Provider.of<NotificationService>(Get.context as BuildContext,
+            listen: false)
+        .showNotificationPeriodically(
       CustomNotification(
         id: 1,
         title: 'Um novo pokemón apareceu',
         body:
             'Um novo pokemón apareceu, venha captura-lo antes que seja tarde 😍',
-        payload: PagesRoute.splashRoute,
+        payload: PagesRoute.battleRoute,
       ),
-      const Duration(seconds: 5),
     );
   }
 

@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:pokedex_getx/pages/base/binding/base_binding.dart';
 import 'package:pokedex_getx/pages/base/view/base_page.dart';
-import 'package:pokedex_getx/pages/battle/battle_page.dart';
-import 'package:pokedex_getx/pages/battle/widgets/select_item_page.dart';
-import 'package:pokedex_getx/pages/battle/widgets/select_pokemon_page.dart';
+import 'package:pokedex_getx/pages/battle/view/battle_page.dart';
+import 'package:pokedex_getx/pages/battle/view/widgets/select_item_page.dart';
+import 'package:pokedex_getx/pages/battle/view/widgets/select_pokemon_page.dart';
 import 'package:pokedex_getx/pages/my_pokemon_detail/my_pokemon_detail_page.dart';
 import 'package:pokedex_getx/pages/pokemon_detail/view/pokemon_page.dart';
 import 'package:pokedex_getx/pages/query/query_page.dart';
@@ -30,7 +30,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: PagesRoute.battleRoute,
-      page: () => BattlePage(),
+      page: () => const BattlePage(),
     ),
     GetPage(
       name: PagesRoute.myPokemonRoute,

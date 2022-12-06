@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:pokedex_getx/pages/base/view/widgets/search_delegate.dart';
 import 'package:pokedex_getx/pages/home/home_page.dart';
-import 'package:pokedex_getx/pages/my_pokemon/my_pokemon_page.dart';
+import 'package:pokedex_getx/pages/my_pokemon/view/my_pokemon_page.dart';
 import 'package:pokedex_getx/routes/page_routes.dart';
 import 'package:pokedex_getx/widgets/customDrawer.dart';
 
@@ -55,16 +55,6 @@ class BasePage extends StatelessWidget {
                       );
                     },
                     icon: const Icon(Icons.refresh),
-                  );
-                },
-              ),
-              GetBuilder<BaseController>(
-                builder: (_) {
-                  return IconButton(
-                    onPressed: () {
-                      Get.toNamed(PagesRoute.battleRoute);
-                    },
-                    icon: const Icon(Icons.delete),
                   );
                 },
               ),

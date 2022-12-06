@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pokedex_getx/pages/battle/controller/battle_controller.dart';
 import 'package:pokedex_getx/pages/my_pokemon/controller/my_pokemon_controller.dart';
-import 'package:pokedex_getx/pages/my_pokemon/widgets/my_pokemon_widgets.dart';
+import 'package:pokedex_getx/pages/my_pokemon/view/widgets/my_pokemon_widgets.dart';
 import 'package:pokedex_getx/services/helper.dart';
 
 class MyPokemonPage extends StatelessWidget {
@@ -52,14 +52,6 @@ class MyPokemonPage extends StatelessWidget {
                     return Container();
                   }
                 },
-              ),
-
-              // Test Button
-              ElevatedButton(
-                onPressed: () {
-                  controller.showNotification();
-                },
-                child: const Text('save'),
               ),
             ],
           );

@@ -101,6 +101,20 @@ class NotificationService {
     );
   }
 
+  showNotificationPeriodically(CustomNotification notification) {
+    localNotificationsPlugin.periodicallyShow(
+      notification.id,
+      notification.title,
+      notification.body,
+      RepeatInterval.everyMinute,
+      NotificationDetails(
+        android: androidDetails,
+      ),
+      payload: notification.payload,
+      androidAllowWhileIdle: true,
+    );
+  }
+
   showLocalNotification(CustomNotification notification) {
     localNotificationsPlugin.show(
       notification.id,

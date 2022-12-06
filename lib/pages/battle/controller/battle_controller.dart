@@ -19,6 +19,7 @@ class BattleController extends GetxController {
   late PokemonCapModel pokemon;
   PokemonCapModel? opoPokemon;
   bool isGridviewVisible = true;
+  bool isLoading = false;
 
   List<DocumentSnapshot> myPokemonList = [];
 
@@ -30,7 +31,7 @@ class BattleController extends GetxController {
 
   @override
   void onInit() async {
-    await randomPokemon();
+    await initializePokemon();
     await myPokemon();
     super.onInit();
   }
@@ -39,9 +40,10 @@ class BattleController extends GetxController {
     myPokemonList = querySnapshot.docs;
   }
 
-  randomPokemon() async {
+  initializePokemon() async {
     querySnapshot = await pokemonRef.get();
-    opoPokemon = await notificationPokemon();
+
+    await randomPokemon();
 
     if (isFirstPokemon()) {
       pokemon = await createPokemon(controller.pokemonList.first);
@@ -52,6 +54,19 @@ class BattleController extends GetxController {
       documentSnapshot = querySnapshot.docs[0];
       pokemon = PokemonHelper.convert(documentSnapshot);
     }
+  }
+
+  randomPokemon() async {
+    opoPokemon = await notificationPokemon();
+  }
+
+  updatePokemon() async {
+    opoPokemon = null;
+    isLoading = true;
+
+    opoPokemon = await notificationPokemon();
+    isLoading = false;
+    update();
   }
 
   attack(PokemonCapModel pokemon, PokemonCapModel oPokemon, int index) async {
@@ -70,7 +85,8 @@ class BattleController extends GetxController {
     await Future.delayed(const Duration(seconds: 1));
 
     if (oPokemon.isAlive) {
-      pokemon.damageTaken += oPokemon.ownedMoves![0].power as int;
+      int i = pokemon.ownedMoves![index].power!;
+      pokemon.damageTaken += ((i * pokemon.hp) / 100 - pokemon.defense).toInt();
 
       if (pokemon.damageTaken == pokemon.hp) {
         pokemon.isAlive = false;
@@ -94,7 +110,7 @@ class BattleController extends GetxController {
 
     final pokemonModel = controller.pokemonList[randomPoke];
 
-    return await createPokemon(pokemonModel);
+    return createPokemon(pokemonModel);
   }
 
   Future<PokemonCapModel> createPokemon(PokemonModel pokemonModel) async {
@@ -226,6 +242,10 @@ class BattleController extends GetxController {
   void savePokemon(PokemonCapModel pokemon) async {
     await pokemonRef.doc().set(pokemon.toMap());
     Get.back();
+  }
+
+  void updateRefPokemon(String id, PokemonCapModel poke) async {
+    await pokemonRef.doc(id).set(poke.toMap());
   }
 
   void choosePokeball() async {

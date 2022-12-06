@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pokedex_getx/pages/battle/controller/battle_controller.dart';
-import 'package:pokedex_getx/pages/battle/widgets/battle_page_widgets.dart';
+import 'package:pokedex_getx/pages/battle/view/widgets/battle_page_widgets.dart';
 
-import '../../model/pokeball_model.dart';
-import '../../model/pokemon_capturable_model.dart';
+import '../../../model/pokeball_model.dart';
 
-class BattlePage extends StatelessWidget {
-  BattlePage({super.key});
+class BattlePage extends StatefulWidget {
+  const BattlePage({super.key});
 
+  @override
+  State<BattlePage> createState() => _BattlePageState();
+}
+
+class _BattlePageState extends State<BattlePage> {
   final controller = Get.find<BattleController>();
-  PokemonCapModel? invPokemon;
 
   final pokeballList = [
     PokeballModel(
@@ -22,6 +25,13 @@ class BattlePage extends StatelessWidget {
       captureRate: 90,
     ),
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.updatePokemon();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,68 +51,67 @@ class BattlePage extends StatelessWidget {
               ),
             ),
             child: SafeArea(
-              child: Column(
-                children: [
-                  Column(
-                    children: [
-                      DataWidget(
-                        pokemon: _.opoPokemon!,
-                        isOpponent: true,
-                      ),
-                      _pokemonWidget(),
-                      _pokemonWidget(isOpponent: false),
-                      DataWidget(
-                        pokemon: _.pokemon,
-                        isOpponent: false,
-                      ),
-                    ],
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      color: const Color.fromARGB(223, 192, 169, 95),
-                      child: _.isGridviewVisible
-                          ? GridView(
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 121 / 46,
-                                crossAxisSpacing: 5,
-                                mainAxisSpacing: 5,
-                              ),
-                              children: [
-                                _gridViewButtons(
-                                  text: 'Fight',
-                                  onPressed: () {
-                                    _.gridViewVisibility();
-                                  },
-                                ),
-                                _gridViewButtons(
-                                  text: 'Bag',
-                                  onPressed: () {
-                                    _.choosePokeball();
-                                  },
-                                ),
-                                _gridViewButtons(
-                                  text: 'Pokémon',
-                                  onPressed: () async {
-                                    _.choosePokemon();
-                                  },
-                                ),
-                                _gridViewButtons(
-                                  text: 'Run',
-                                  onPressed: () {
-                                    Get.back();
-                                  },
-                                ),
-                              ],
-                            )
-                          : _fightButton(),
+              child: _.isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Column(
+                      children: [
+                        Column(
+                          children: [
+                            DataWidget(pokemon: _.opoPokemon!),
+                            _pokemonWidget(),
+                            _pokemonWidget(isOpponent: false),
+                            DataWidget(pokemon: _.pokemon, isOpponent: false),
+                          ],
+                        ),
+                        Expanded(
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            color: const Color.fromARGB(223, 192, 169, 95),
+                            child: _.isGridviewVisible
+                                ? GridView(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      childAspectRatio: 121 / 46,
+                                      crossAxisSpacing: 5,
+                                      mainAxisSpacing: 5,
+                                    ),
+                                    children: [
+                                      _gridViewButtons(
+                                        text: 'Fight',
+                                        onPressed: () {
+                                          _.gridViewVisibility();
+                                        },
+                                      ),
+                                      _gridViewButtons(
+                                        text: 'Bag',
+                                        onPressed: () {
+                                          _.choosePokeball();
+                                        },
+                                      ),
+                                      _gridViewButtons(
+                                        text: 'Pokémon',
+                                        onPressed: () async {
+                                          _.choosePokemon();
+                                        },
+                                      ),
+                                      _gridViewButtons(
+                                        text: 'Run',
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                      ),
+                                    ],
+                                  )
+                                : _fightButton(),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
             ),
           );
         },

@@ -179,7 +179,9 @@ class MyPokemonDetailPage extends StatelessWidget {
                               ),
                             ),
 
-                            Expanded(
+                            SizedBox(
+                              width: size.width,
+                              height: size.width / 1.7,
                               child: Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: GridView.builder(
