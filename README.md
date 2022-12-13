@@ -15,8 +15,8 @@ O projeto conta com uma pokedéx (Catálogos de pokémons) inteiramente funciona
 ## Future Updates
 
 - Pokédex ✅
-- Notificações por push ❌
-- Sistema de captura de pokémon ❌
+- Notificações por push ✅
+- Sistema de captura de pokémon ✅
 - Estatísticas de uso do app ❌
 - Login e senha ❌
 - Batalha PvP ❌
