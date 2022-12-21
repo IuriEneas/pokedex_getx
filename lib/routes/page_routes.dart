@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:pokedex_getx/pages/auth/login_page.dart';
 import 'package:pokedex_getx/pages/base/binding/base_binding.dart';
 import 'package:pokedex_getx/pages/base/view/base_page.dart';
 import 'package:pokedex_getx/pages/battle/view/battle_page.dart';
@@ -44,6 +45,10 @@ abstract class AppPages {
       name: PagesRoute.selectItemRoute,
       page: () => SelectItemPage(),
     ),
+    GetPage(
+      name: PagesRoute.loginRoute,
+      page: () => LoginPage(),
+    ),
   ];
 }
 
@@ -56,4 +61,5 @@ abstract class PagesRoute {
   static const String myPokemonRoute = '/my_pokemon';
   static const String selectPokemonRoute = '/select_pokemon';
   static const String selectItemRoute = '/select_item';
+  static const String loginRoute = '/login';
 }

@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:get/get.dart';
 import 'package:pokedex_getx/model/pokemon_model.dart';
 import 'package:pokedex_getx/model/pokemon_result_model.dart';
-import 'package:pokedex_getx/routes/page_routes.dart';
 import 'package:pokedex_getx/services/repository.dart';
 
 class BaseController extends GetxController {
@@ -37,8 +36,6 @@ class BaseController extends GetxController {
       repository.savePokemon(pokemonList);
       repository.saveResult(resultModel!);
     }
-
-    Get.offAllNamed(PagesRoute.baseRoute);
 
     update();
   }
